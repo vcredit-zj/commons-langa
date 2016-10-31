@@ -1,1 +1,3 @@
-# -commons-langa
+# commons-langa
+
+由于官方版本的库和android系统的包名冲突导致编译失败的，因此就有了这个项目。commons-lang3的重新打包项目，版本号会紧跟官方版本
