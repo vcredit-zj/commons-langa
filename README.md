@@ -19,8 +19,11 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.vcredit-zj:commons-langa:v3.4-1'
+	        compile 'com.github.vcredit-zj:commons-langa:v3.5-1'
 	}
+
+其他导入方式详见[commons-langa的jitpack首页](https://jitpack.io/#vcredit-zj/commons-langa)
+
 
 ### 更新记录 ###
 
