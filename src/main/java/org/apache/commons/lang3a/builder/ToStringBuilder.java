@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ObjectUtils;
+
 /**
  * <p>Assists in implementing {@link Object#toString()} methods.</p>
  *
@@ -82,7 +84,6 @@ package org.apache.commons.lang3a.builder;
  * the {@link ToStringStyle} passed into the constructor.</p>
  *
  * @since 1.0
- * @version $Id$
  */
 public class ToStringBuilder implements Builder<String> {
 
@@ -951,7 +952,7 @@ public class ToStringBuilder implements Builder<String> {
      * @since 2.0
      */
     public ToStringBuilder appendAsObjectToString(final Object srcObject) {
-        org.apache.commons.lang3a.ObjectUtils.identityToString(this.getStringBuffer(), srcObject);
+        ObjectUtils.identityToString(this.getStringBuffer(), srcObject);
         return this;
     }
 

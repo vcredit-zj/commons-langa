@@ -16,14 +16,15 @@
  */
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.tuple.Pair;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang3a.ArrayUtils;
 
 /**
  * <p>Assists in implementing {@link Object#equals(Object)} methods.</p>
@@ -76,9 +77,11 @@ import org.apache.commons.lang3a.ArrayUtils;
  *   return EqualsBuilder.reflectionEquals(this, obj);
  * }
  * </pre>
+ * 
+ * <p>The {@link EqualsExclude} annotation can be used to exclude fields from being
+ * used by the <code>reflectionEquals</code> methods.</p>
  *
  * @since 1.0
- * @version $Id$
  */
 public class EqualsBuilder implements Builder<Boolean> {
 
@@ -89,7 +92,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      *
      * @since 3.0
      */
-    private static final ThreadLocal<Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>>> REGISTRY = new ThreadLocal<Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>>>();
+    private static final ThreadLocal<Set<Pair<IDKey, IDKey>>> REGISTRY = new ThreadLocal<Set<Pair<IDKey, IDKey>>>();
 
     /*
      * NOTE: we cannot store the actual objects in a HashSet, as that would use the very hashCode()
@@ -101,7 +104,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * are equal, so we also need to ensure that the replacement objects are only equal
      * if the original objects are identical.
      *
-     * The original implementation (2.4 and before) used the System.indentityHashCode()
+     * The original implementation (2.4 and before) used the System.identityHashCode()
      * method - however this is not guaranteed to generate unique ids (e.g. LANG-459)
      *
      * We now use the IDKey helper class (adapted from org.apache.axis.utils.IDKey)
@@ -117,7 +120,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return Set the registry of objects being traversed
      * @since 3.0
      */
-    static Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>> getRegistry() {
+    static Set<Pair<IDKey, IDKey>> getRegistry() {
         return REGISTRY.get();
     }
 
@@ -131,10 +134,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      *
      * @return the pair
      */
-    static org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey> getRegisterPair(final Object lhs, final Object rhs) {
+    static Pair<IDKey, IDKey> getRegisterPair(final Object lhs, final Object rhs) {
         final IDKey left = new IDKey(lhs);
         final IDKey right = new IDKey(rhs);
-        return org.apache.commons.lang3a.tuple.Pair.of(left, right);
+        return Pair.of(left, right);
     }
 
     /**
@@ -151,9 +154,9 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @since 3.0
      */
     static boolean isRegistered(final Object lhs, final Object rhs) {
-        final Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>> registry = getRegistry();
-        final org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
-        final org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey> swappedPair = org.apache.commons.lang3a.tuple.Pair.of(pair.getLeft(), pair.getRight());
+        final Set<Pair<IDKey, IDKey>> registry = getRegistry();
+        final Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
+        final Pair<IDKey, IDKey> swappedPair = Pair.of(pair.getLeft(), pair.getRight());
 
         return registry != null
                 && (registry.contains(pair) || registry.contains(swappedPair));
@@ -168,15 +171,13 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @param lhs <code>this</code> object to register
      * @param rhs the other object to register
      */
-    static void register(final Object lhs, final Object rhs) {
-        synchronized (EqualsBuilder.class) {
-            if (getRegistry() == null) {
-                REGISTRY.set(new HashSet<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>>());
-            }
+    private static void register(final Object lhs, final Object rhs) {
+        Set<Pair<IDKey, IDKey>> registry = getRegistry();
+        if (registry == null) {
+            registry = new HashSet<Pair<IDKey, IDKey>>();
+            REGISTRY.set(registry);
         }
-
-        final Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>> registry = getRegistry();
-        final org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
+        final Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
         registry.add(pair);
     }
 
@@ -192,17 +193,13 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @param rhs the other object to unregister
      * @since 3.0
      */
-    static void unregister(final Object lhs, final Object rhs) {
-        Set<org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey>> registry = getRegistry();
+    private static void unregister(final Object lhs, final Object rhs) {
+        Set<Pair<IDKey, IDKey>> registry = getRegistry();
         if (registry != null) {
-            final org.apache.commons.lang3a.tuple.Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
+            final Pair<IDKey, IDKey> pair = getRegisterPair(lhs, rhs);
             registry.remove(pair);
-            synchronized (EqualsBuilder.class) {
-                //read again
-                registry = getRegistry();
-                if (registry != null && registry.isEmpty()) {
-                    REGISTRY.remove();
-                }
+            if (registry.isEmpty()) {
+                REGISTRY.remove();
             }
         }
     }
@@ -244,9 +241,11 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @param rhs  the other object
      * @param excludeFields  Collection of String field names to exclude from testing
      * @return <code>true</code> if the two Objects have tested equals.
+     * 
+     * @see EqualsExclude
      */
     public static boolean reflectionEquals(final Object lhs, final Object rhs, final Collection<String> excludeFields) {
-        return reflectionEquals(lhs, rhs, org.apache.commons.lang3a.builder.ReflectionToStringBuilder.toNoNullStringArray(excludeFields));
+        return reflectionEquals(lhs, rhs, ReflectionToStringBuilder.toNoNullStringArray(excludeFields));
     }
 
     /**
@@ -268,6 +267,8 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @param rhs  the other object
      * @param excludeFields  array of field names to exclude from testing
      * @return <code>true</code> if the two Objects have tested equals.
+     * 
+     * @see EqualsExclude
      */
     public static boolean reflectionEquals(final Object lhs, final Object rhs, final String... excludeFields) {
         return reflectionEquals(lhs, rhs, false, null, excludeFields);
@@ -293,6 +294,8 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @param rhs  the other object
      * @param testTransients  whether to include transient fields
      * @return <code>true</code> if the two Objects have tested equals.
+     * 
+     * @see EqualsExclude
      */
     public static boolean reflectionEquals(final Object lhs, final Object rhs, final boolean testTransients) {
         return reflectionEquals(lhs, rhs, testTransients, null);
@@ -323,6 +326,8 @@ public class EqualsBuilder implements Builder<Boolean> {
      *  may be <code>null</code>
      * @param excludeFields  array of field names to exclude from testing
      * @return <code>true</code> if the two Objects have tested equals.
+     * 
+     * @see EqualsExclude
      * @since 2.0
      */
     public static boolean reflectionEquals(final Object lhs, final Object rhs, final boolean testTransients, final Class<?> reflectUpToClass,
@@ -408,9 +413,10 @@ public class EqualsBuilder implements Builder<Boolean> {
             for (int i = 0; i < fields.length && builder.isEquals; i++) {
                 final Field f = fields[i];
                 if (!ArrayUtils.contains(excludeFields, f.getName())
-                    && (f.getName().indexOf('$') == -1)
+                    && !f.getName().contains("$")
                     && (useTransients || !Modifier.isTransient(f.getModifiers()))
-                    && (!Modifier.isStatic(f.getModifiers()))) {
+                    && !Modifier.isStatic(f.getModifiers())
+                    && !f.isAnnotationPresent(EqualsExclude.class)) {
                     try {
                         builder.append(f.get(lhs), f.get(rhs));
                     } catch (final IllegalAccessException e) {
@@ -435,7 +441,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @since 2.0
      */
     public EqualsBuilder appendSuper(final boolean superEquals) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         isEquals = superEquals;
@@ -453,7 +459,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final Object lhs, final Object rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -467,7 +473,22 @@ public class EqualsBuilder implements Builder<Boolean> {
         if (!lhsClass.isArray()) {
             // The simple case, not an array, just test the element
             isEquals = lhs.equals(rhs);
-        } else if (lhs.getClass() != rhs.getClass()) {
+        } else {
+            // factor out array case in order to keep method small enough
+            // to be inlined
+            appendArray(lhs, rhs);
+        }
+        return this;
+    }
+
+    /**
+     * <p>Test if an <code>Object</code> is equal to an array.</p>
+     *
+     * @param lhs  the left hand object, an array
+     * @param rhs  the right hand object
+     */
+    private void appendArray(final Object lhs, final Object rhs) {
+        if (lhs.getClass() != rhs.getClass()) {
             // Here when we compare different dimensions, for example: a boolean[][] to a boolean[]
             this.setEquals(false);
         }
@@ -493,7 +514,6 @@ public class EqualsBuilder implements Builder<Boolean> {
             // Not an array of primitives
             append((Object[]) lhs, (Object[]) rhs);
         }
-        return this;
     }
 
     /**
@@ -508,10 +528,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final long lhs, final long rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -523,10 +543,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final int lhs, final int rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -538,10 +558,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final short lhs, final short rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -553,10 +573,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final char lhs, final char rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -568,10 +588,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final byte lhs, final byte rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -589,7 +609,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final double lhs, final double rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         return append(Double.doubleToLongBits(lhs), Double.doubleToLongBits(rhs));
@@ -609,7 +629,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final float lhs, final float rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         return append(Float.floatToIntBits(lhs), Float.floatToIntBits(rhs));
@@ -623,10 +643,10 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
       */
     public EqualsBuilder append(final boolean lhs, final boolean rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
-        isEquals = (lhs == rhs);
+        isEquals = lhs == rhs;
         return this;
     }
 
@@ -641,7 +661,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final Object[] lhs, final Object[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -672,7 +692,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final long[] lhs, final long[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -703,7 +723,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final int[] lhs, final int[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -734,7 +754,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final short[] lhs, final short[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -765,7 +785,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final char[] lhs, final char[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -796,7 +816,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final byte[] lhs, final byte[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -827,7 +847,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final double[] lhs, final double[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -858,7 +878,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final float[] lhs, final float[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {
@@ -889,7 +909,7 @@ public class EqualsBuilder implements Builder<Boolean> {
      * @return EqualsBuilder - used to chain calls.
      */
     public EqualsBuilder append(final boolean[] lhs, final boolean[] rhs) {
-        if (isEquals == false) {
+        if (!isEquals) {
             return this;
         }
         if (lhs == rhs) {

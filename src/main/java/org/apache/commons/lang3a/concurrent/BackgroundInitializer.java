@@ -16,11 +16,7 @@
  */
 package org.apache.commons.lang3a.concurrent;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * <p>
@@ -80,7 +76,6 @@ import java.util.concurrent.Future;
  * </p>
  *
  * @since 3.0
- * @version $Id$
  * @param <T> the type of the object managed by this initializer class
  */
 public abstract class BackgroundInitializer<T> implements

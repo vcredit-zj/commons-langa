@@ -22,7 +22,6 @@ package org.apache.commons.lang3a;
  * <p>The methods of this class do not allow {@code null} inputs.</p>
  *
  * @since 3.3
- * @version $Id$
  */
 //@Immutable
 public class ClassPathUtils {
@@ -47,7 +46,7 @@ public class ClassPathUtils {
      * Null inputs are not allowed.</p>
      *
      * <pre>
-     * ClassPathUtils.toFullyQualifiedName(StringUtils.class, "StringUtils.properties") = "StringUtils.properties"
+     * ClassPathUtils.toFullyQualifiedName(StringUtils.class, "StringUtils.properties") = "org.apache.commons.lang3a.StringUtils.properties"
      * </pre>
      *
      * @param context The context for constructing the name.
@@ -69,7 +68,7 @@ public class ClassPathUtils {
      * Null inputs are not allowed.</p>
      *
      * <pre>
-     * ClassPathUtils.toFullyQualifiedName(StringUtils.class.getPackage(), "StringUtils.properties") = "StringUtils.properties"
+     * ClassPathUtils.toFullyQualifiedName(StringUtils.class.getPackage(), "StringUtils.properties") = "org.apache.commons.lang3a.StringUtils.properties"
      * </pre>
      *
      * @param context The context for constructing the name.
@@ -80,11 +79,7 @@ public class ClassPathUtils {
     public static String toFullyQualifiedName(final Package context, final String resourceName) {
         Validate.notNull(context, "Parameter '%s' must not be null!", "context" );
         Validate.notNull(resourceName, "Parameter '%s' must not be null!", "resourceName");
-        final StringBuilder sb = new StringBuilder();
-        sb.append(context.getName());
-        sb.append(".");
-        sb.append(resourceName);
-        return sb.toString();
+        return context.getName() + "." + resourceName;
     }
 
     /**
@@ -129,11 +124,7 @@ public class ClassPathUtils {
     public static String toFullyQualifiedPath(final Package context, final String resourceName) {
         Validate.notNull(context, "Parameter '%s' must not be null!", "context" );
         Validate.notNull(resourceName, "Parameter '%s' must not be null!", "resourceName");
-        final StringBuilder sb = new StringBuilder();
-        sb.append(context.getName().replace('.', '/'));
-        sb.append("/");
-        sb.append(resourceName);
-        return sb.toString();
+        return context.getName().replace('.', '/') + "/" + resourceName;
     }
 
 }

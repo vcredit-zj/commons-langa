@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a.concurrent;
 
+import org.apache.commons.lang3a.Validate;
+
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -28,7 +30,6 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @since 3.0
- * @version $Id$
  */
 public class ConcurrentUtils {
 
@@ -141,7 +142,7 @@ public class ConcurrentUtils {
      * checked exception
      */
     static Throwable checkedException(final Throwable ex) {
-        org.apache.commons.lang3a.Validate.isTrue(ex != null && !(ex instanceof RuntimeException)
+        Validate.isTrue(ex != null && !(ex instanceof RuntimeException)
                 && !(ex instanceof Error), "Not a checked exception: " + ex);
         
         return ex;

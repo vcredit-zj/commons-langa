@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ClassUtils;
+
 import java.util.Collection;
 
 /**
@@ -47,7 +49,6 @@ import java.util.Collection;
  * <code>Person@7f54[name=Stephen,age=29,smoker=false,job=Job@43cd2[title=Manager]]</code></p>
  * 
  * @since 3.2
- * @version $Id$
  */
 public class RecursiveToStringStyle extends ToStringStyle {
 
@@ -67,7 +68,7 @@ public class RecursiveToStringStyle extends ToStringStyle {
 
     @Override
     public void appendDetail(final StringBuffer buffer, final String fieldName, final Object value) {
-        if (!org.apache.commons.lang3a.ClassUtils.isPrimitiveWrapper(value.getClass()) &&
+        if (!ClassUtils.isPrimitiveWrapper(value.getClass()) &&
             !String.class.equals(value.getClass()) &&
             accept(value.getClass())) {
             buffer.append(ReflectionToStringBuilder.toString(value, this));

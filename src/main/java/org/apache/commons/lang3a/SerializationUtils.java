@@ -16,15 +16,7 @@
  */
 package org.apache.commons.lang3a;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +35,6 @@ import java.util.Map;
  *
  * <p>#ThreadSafe#</p>
  * @since 1.0
- * @version $Id$
  */
 public class SerializationUtils {
 
@@ -121,6 +112,7 @@ public class SerializationUtils {
      * @return the serialized and deseralized object
      * @since 3.3
      */
+    @SuppressWarnings("unchecked") // OK, because we serialized a type `T`
     public static <T extends Serializable> T roundtrip(final T msg) {
         return (T) SerializationUtils.deserialize(SerializationUtils.serialize(msg));
     }
@@ -219,12 +211,10 @@ public class SerializationUtils {
         try {
             // stream closed in the finally
             in = new ObjectInputStream(inputStream);
-            @SuppressWarnings("unchecked") // may fail with CCE if serialised form is incorrect
+            @SuppressWarnings("unchecked")
             final T obj = (T) in.readObject();
             return obj;
 
-        } catch (final ClassCastException ex) {
-            throw new SerializationException(ex);
         } catch (final ClassNotFoundException ex) {
             throw new SerializationException(ex);
         } catch (final IOException ex) {
@@ -276,15 +266,28 @@ public class SerializationUtils {
      * containers and application servers, no matter in which of the
      * <code>ClassLoader</code> the particular class that encapsulates
      * serialization/deserialization lives. </p>
-     * 
+     *
      * <p>For more in-depth information about the problem for which this
      * class here is a workaround, see the JIRA issue LANG-626. </p>
      */
      static class ClassLoaderAwareObjectInputStream extends ObjectInputStream {
-        private static final Map<String, Class<?>> primitiveTypes = 
+        private static final Map<String, Class<?>> primitiveTypes =
                 new HashMap<String, Class<?>>();
+
+        static {
+            primitiveTypes.put("byte", byte.class);
+            primitiveTypes.put("short", short.class);
+            primitiveTypes.put("int", int.class);
+            primitiveTypes.put("long", long.class);
+            primitiveTypes.put("float", float.class);
+            primitiveTypes.put("double", double.class);
+            primitiveTypes.put("boolean", boolean.class);
+            primitiveTypes.put("char", char.class);
+            primitiveTypes.put("void", void.class);
+        }
+
         private final ClassLoader classLoader;
-        
+
         /**
          * Constructor.
          * @param in The <code>InputStream</code>.
@@ -295,16 +298,6 @@ public class SerializationUtils {
         public ClassLoaderAwareObjectInputStream(final InputStream in, final ClassLoader classLoader) throws IOException {
             super(in);
             this.classLoader = classLoader;
-
-            primitiveTypes.put("byte", byte.class);
-            primitiveTypes.put("short", short.class);
-            primitiveTypes.put("int", int.class);
-            primitiveTypes.put("long", long.class);
-            primitiveTypes.put("float", float.class);
-            primitiveTypes.put("double", double.class);
-            primitiveTypes.put("boolean", boolean.class);
-            primitiveTypes.put("char", char.class);
-            primitiveTypes.put("void", void.class);
         }
 
         /**

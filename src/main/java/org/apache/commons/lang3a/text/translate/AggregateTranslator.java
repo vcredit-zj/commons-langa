@@ -16,17 +16,16 @@
  */
 package org.apache.commons.lang3a.text.translate;
 
+import org.apache.commons.lang3a.ArrayUtils;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import org.apache.commons.lang3a.ArrayUtils;
 
 /**
  * Executes a sequence of translators one after the other. Execution ends whenever 
  * the first translator consumes codepoints from the input.
  * 
  * @since 3.0
- * @version $Id$
  */
 public class AggregateTranslator extends CharSequenceTranslator {
 

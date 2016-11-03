@@ -16,10 +16,10 @@
  */
 package org.apache.commons.lang3a.reflect;
 
+import org.apache.commons.lang3a.Validate;
+
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-
-import org.apache.commons.lang3a.Validate;
 
 /**
  * <p>Type literal comparable to {@code javax.enterprise.util.TypeLiteral},
@@ -69,7 +69,6 @@ import org.apache.commons.lang3a.Validate;
  *   &lt;T&gt; T obtain(Typed&lt;T&gt; typed, ...);
  * </pre>
  *
- * @version $Id$
  * @since 3.2
  */
 public abstract class TypeLiteral<T> implements Typed<T> {
@@ -89,10 +88,10 @@ public abstract class TypeLiteral<T> implements Typed<T> {
      */
     protected TypeLiteral() {
         this.value =
-            Validate.notNull(org.apache.commons.lang3a.reflect.TypeUtils.getTypeArguments(getClass(), TypeLiteral.class).get(T),
-                "%s does not assign type parameter %s", getClass(), org.apache.commons.lang3a.reflect.TypeUtils.toLongString(T));
+            Validate.notNull(TypeUtils.getTypeArguments(getClass(), TypeLiteral.class).get(T),
+                "%s does not assign type parameter %s", getClass(), TypeUtils.toLongString(T));
 
-        this.toString = String.format("%s<%s>", TypeLiteral.class.getSimpleName(), org.apache.commons.lang3a.reflect.TypeUtils.toString(value));
+        this.toString = String.format("%s<%s>", TypeLiteral.class.getSimpleName(), TypeUtils.toString(value));
     }
 
     @Override
@@ -104,7 +103,7 @@ public abstract class TypeLiteral<T> implements Typed<T> {
             return false;
         }
         final TypeLiteral<?> other = (TypeLiteral<?>) obj;
-        return org.apache.commons.lang3a.reflect.TypeUtils.equals(value, other.value);
+        return TypeUtils.equals(value, other.value);
     }
 
     @Override 

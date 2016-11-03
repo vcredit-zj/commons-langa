@@ -17,15 +17,15 @@
 
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.Validate;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang3a.ArrayUtils;
-import org.apache.commons.lang3a.Validate;
 
 /**
  * <p>
@@ -94,9 +94,11 @@ import org.apache.commons.lang3a.Validate;
  *   return HashCodeBuilder.reflectionHashCode(this);
  * }
  * </pre>
+ * 
+ * <p>The {@link HashCodeExclude} annotation can be used to exclude fields from being
+ * used by the <code>reflectionHashCode</code> methods.</p>
  *
  * @since 1.0
- * @version $Id$
  */
 public class HashCodeBuilder implements Builder<Integer> {
     /**
@@ -105,7 +107,7 @@ public class HashCodeBuilder implements Builder<Integer> {
     private static final int DEFAULT_INITIAL_VALUE = 17;
     
     /**
-     * The default multipler value to use in reflection hash code building.
+     * The default multiplier value to use in reflection hash code building.
      */
     private static final int DEFAULT_MULTIPLIER_VALUE = 37;
     
@@ -128,7 +130,7 @@ public class HashCodeBuilder implements Builder<Integer> {
      * are equal, so we also need to ensure that the replacement objects are only equal
      * if the original objects are identical.
      *
-     * The original implementation (2.4 and before) used the System.indentityHashCode()
+     * The original implementation (2.4 and before) used the System.identityHashCode()
      * method - however this is not guaranteed to generate unique ids (e.g. LANG-459)
      *
      * We now use the IDKey helper class (adapted from org.apache.axis.utils.IDKey)
@@ -190,9 +192,10 @@ public class HashCodeBuilder implements Builder<Integer> {
             AccessibleObject.setAccessible(fields, true);
             for (final Field field : fields) {
                 if (!ArrayUtils.contains(excludeFields, field.getName())
-                    && (field.getName().indexOf('$') == -1)
+                    && !field.getName().contains("$")
                     && (useTransients || !Modifier.isTransient(field.getModifiers()))
-                    && (!Modifier.isStatic(field.getModifiers()))) {
+                    && !Modifier.isStatic(field.getModifiers())
+                    && !field.isAnnotationPresent(HashCodeExclude.class)) {
                     try {
                         final Object fieldValue = field.get(object);
                         builder.append(fieldValue);
@@ -245,6 +248,8 @@ public class HashCodeBuilder implements Builder<Integer> {
      *             if the Object is <code>null</code>
      * @throws IllegalArgumentException
      *             if the number is zero or even
+     *
+     * @see HashCodeExclude
      */
     public static int reflectionHashCode(final int initialNonZeroOddNumber, final int multiplierNonZeroOddNumber, final Object object) {
         return reflectionHashCode(initialNonZeroOddNumber, multiplierNonZeroOddNumber, object, false, null);
@@ -289,6 +294,8 @@ public class HashCodeBuilder implements Builder<Integer> {
      *             if the Object is <code>null</code>
      * @throws IllegalArgumentException
      *             if the number is zero or even
+     *
+     * @see HashCodeExclude
      */
     public static int reflectionHashCode(final int initialNonZeroOddNumber, final int multiplierNonZeroOddNumber, final Object object,
             final boolean testTransients) {
@@ -341,6 +348,8 @@ public class HashCodeBuilder implements Builder<Integer> {
      *             if the Object is <code>null</code>
      * @throws IllegalArgumentException
      *             if the number is zero or even
+     *
+     * @see HashCodeExclude
      * @since 2.0
      */
     public static <T> int reflectionHashCode(final int initialNonZeroOddNumber, final int multiplierNonZeroOddNumber, final T object,
@@ -391,6 +400,8 @@ public class HashCodeBuilder implements Builder<Integer> {
      * @return int hash code
      * @throws IllegalArgumentException
      *             if the object is <code>null</code>
+     *
+     * @see HashCodeExclude
      */
     public static int reflectionHashCode(final Object object, final boolean testTransients) {
         return reflectionHashCode(DEFAULT_INITIAL_VALUE, DEFAULT_MULTIPLIER_VALUE, object, 
@@ -429,9 +440,11 @@ public class HashCodeBuilder implements Builder<Integer> {
      * @return int hash code
      * @throws IllegalArgumentException
      *             if the object is <code>null</code>
+     *
+     * @see HashCodeExclude
      */
     public static int reflectionHashCode(final Object object, final Collection<String> excludeFields) {
-        return reflectionHashCode(object, org.apache.commons.lang3a.builder.ReflectionToStringBuilder.toNoNullStringArray(excludeFields));
+        return reflectionHashCode(object, ReflectionToStringBuilder.toNoNullStringArray(excludeFields));
     }
 
     // -------------------------------------------------------------------------
@@ -468,6 +481,8 @@ public class HashCodeBuilder implements Builder<Integer> {
      * @return int hash code
      * @throws IllegalArgumentException
      *             if the object is <code>null</code>
+     *
+     * @see HashCodeExclude
      */
     public static int reflectionHashCode(final Object object, final String... excludeFields) {
         return reflectionHashCode(DEFAULT_INITIAL_VALUE, DEFAULT_MULTIPLIER_VALUE, object, false, 
@@ -482,13 +497,13 @@ public class HashCodeBuilder implements Builder<Integer> {
      * @param value
      *            The object to register.
      */
-    static void register(final Object value) {
-        synchronized (HashCodeBuilder.class) {
-            if (getRegistry() == null) {
-                REGISTRY.set(new HashSet<IDKey>());
-            }
+    private static void register(final Object value) {
+        Set<IDKey> registry = getRegistry();
+        if (registry == null) {
+            registry = new HashSet<IDKey>();
+            REGISTRY.set(registry);
         }
-        getRegistry().add(new IDKey(value));
+        registry.add(new IDKey(value));
     }
 
     /**
@@ -503,16 +518,12 @@ public class HashCodeBuilder implements Builder<Integer> {
      *            The object to unregister.
      * @since 2.3
      */
-    static void unregister(final Object value) {
+    private static void unregister(final Object value) {
         Set<IDKey> registry = getRegistry();
         if (registry != null) {
             registry.remove(new IDKey(value));
-            synchronized (HashCodeBuilder.class) {
-                //read again
-                registry = getRegistry();
-                if (registry != null && registry.isEmpty()) {
-                    REGISTRY.remove();
-                }
+            if (registry.isEmpty()) {
+                REGISTRY.remove();
             }
         }
     }
@@ -832,34 +843,48 @@ public class HashCodeBuilder implements Builder<Integer> {
             iTotal = iTotal * iConstant;
 
         } else {
-            if(object.getClass().isArray()) {
-                // 'Switch' on type of array, to dispatch to the correct handler
-                // This handles multi dimensional arrays
-                if (object instanceof long[]) {
-                    append((long[]) object);
-                } else if (object instanceof int[]) {
-                    append((int[]) object);
-                } else if (object instanceof short[]) {
-                    append((short[]) object);
-                } else if (object instanceof char[]) {
-                    append((char[]) object);
-                } else if (object instanceof byte[]) {
-                    append((byte[]) object);
-                } else if (object instanceof double[]) {
-                    append((double[]) object);
-                } else if (object instanceof float[]) {
-                    append((float[]) object);
-                } else if (object instanceof boolean[]) {
-                    append((boolean[]) object);
-                } else {
-                    // Not an array of primitives
-                    append((Object[]) object);
-                }
+            if (object.getClass().isArray()) {
+                // factor out array case in order to keep method small enough
+                // to be inlined
+                appendArray(object);
             } else {
                 iTotal = iTotal * iConstant + object.hashCode();
             }
         }
         return this;
+    }
+
+    /**
+     * <p>
+     * Append a <code>hashCode</code> for an array.
+     * </p>
+     *
+     * @param object
+     *            the array to add to the <code>hashCode</code>
+     */
+    private void appendArray(final Object object) {
+        // 'Switch' on type of array, to dispatch to the correct handler
+        // This handles multi dimensional arrays
+        if (object instanceof long[]) {
+            append((long[]) object);
+        } else if (object instanceof int[]) {
+            append((int[]) object);
+        } else if (object instanceof short[]) {
+            append((short[]) object);
+        } else if (object instanceof char[]) {
+            append((char[]) object);
+        } else if (object instanceof byte[]) {
+            append((byte[]) object);
+        } else if (object instanceof double[]) {
+            append((double[]) object);
+        } else if (object instanceof float[]) {
+            append((float[]) object);
+        } else if (object instanceof boolean[]) {
+            append((boolean[]) object);
+        } else {
+            // Not an array of primitives
+            append((Object[]) object);
+        }
     }
 
     /**

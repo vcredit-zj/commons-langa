@@ -16,12 +16,14 @@
  */
 package org.apache.commons.lang3a.text;
 
-import static java.util.FormattableFlags.LEFT_JUSTIFY;
+import org.apache.commons.lang3a.ObjectUtils;
+import org.apache.commons.lang3a.StringUtils;
+import org.apache.commons.lang3a.Validate;
 
 import java.util.Formattable;
 import java.util.Formatter;
 
-import org.apache.commons.lang3a.ObjectUtils;
+import static java.util.FormattableFlags.LEFT_JUSTIFY;
 
 /**
  * <p>Provides utilities for working with the {@code Formattable} interface.</p>
@@ -31,7 +33,6 @@ import org.apache.commons.lang3a.ObjectUtils;
  * and padding, and is not designed to allow generalised alternate formats.</p>
  * 
  * @since Lang 3.0
- * @version $Id$
  */
 public class FormattableUtils {
 
@@ -131,11 +132,11 @@ public class FormattableUtils {
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar, final CharSequence ellipsis) {
-        org.apache.commons.lang3a.Validate.isTrue(ellipsis == null || precision < 0 || ellipsis.length() <= precision,
+        Validate.isTrue(ellipsis == null || precision < 0 || ellipsis.length() <= precision,
                 "Specified ellipsis '%1$s' exceeds precision of %2$s", ellipsis, Integer.valueOf(precision));
         final StringBuilder buf = new StringBuilder(seq);
         if (precision >= 0 && precision < seq.length()) {
-            final CharSequence _ellipsis = ObjectUtils.defaultIfNull(ellipsis, org.apache.commons.lang3a.StringUtils.EMPTY);
+            final CharSequence _ellipsis = ObjectUtils.defaultIfNull(ellipsis, StringUtils.EMPTY);
             buf.replace(precision - _ellipsis.length(), seq.length(), _ellipsis.toString());
         }
         final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;

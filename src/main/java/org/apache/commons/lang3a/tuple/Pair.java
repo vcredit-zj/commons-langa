@@ -16,11 +16,11 @@
  */
 package org.apache.commons.lang3a.tuple;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import org.apache.commons.lang3a.ObjectUtils;
 import org.apache.commons.lang3a.builder.CompareToBuilder;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * <p>A pair consisting of two elements.</p>
@@ -37,7 +37,6 @@ import org.apache.commons.lang3a.builder.CompareToBuilder;
  * @param <R> the right element type
  *
  * @since Lang 3.0
- * @version $Id$
  */
 public abstract class Pair<L, R> implements Map.Entry<L, R>, Comparable<Pair<L, R>>, Serializable {
 

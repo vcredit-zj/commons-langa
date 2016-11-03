@@ -16,27 +16,20 @@
  */
 package org.apache.commons.lang3a.reflect;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.ClassUtils;
+import org.apache.commons.lang3a.ObjectUtils;
+import org.apache.commons.lang3a.Validate;
+import org.apache.commons.lang3a.builder.Builder;
+
+import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * <p> Utility methods focusing on type inspection, particularly with regard to
  * generics. </p>
  *
  * @since 3.0
- * @version $Id$
  */
 public class TypeUtils {
 
@@ -44,7 +37,7 @@ public class TypeUtils {
      * {@link WildcardType} builder.
      * @since 3.2
      */
-    public static class WildcardTypeBuilder implements org.apache.commons.lang3a.builder.Builder<WildcardType> {
+    public static class WildcardTypeBuilder implements Builder<WildcardType> {
         /**
          * Constructor
          */
@@ -151,7 +144,7 @@ public class TypeUtils {
         private ParameterizedTypeImpl(final Class<?> raw, final Type useOwner, final Type[] typeArguments) {
             this.raw = raw;
             this.useOwner = useOwner;
-            this.typeArguments = typeArguments;
+            this.typeArguments = typeArguments.clone();
         }
 
         /**
@@ -203,7 +196,7 @@ public class TypeUtils {
             int result = 71 << 4;
             result |= raw.hashCode();
             result <<= 4;
-            result |= org.apache.commons.lang3a.ObjectUtils.hashCode(useOwner);
+            result |= ObjectUtils.hashCode(useOwner);
             result <<= 8;
             result |= Arrays.hashCode(typeArguments);
             return result;
@@ -226,8 +219,8 @@ public class TypeUtils {
          * @param lowerBounds of this type
          */
         private WildcardTypeImpl(final Type[] upperBounds, final Type[] lowerBounds) {
-            this.upperBounds = org.apache.commons.lang3a.ObjectUtils.defaultIfNull(upperBounds, EMPTY_BOUNDS);
-            this.lowerBounds = org.apache.commons.lang3a.ObjectUtils.defaultIfNull(lowerBounds, EMPTY_BOUNDS);
+            this.upperBounds = ObjectUtils.defaultIfNull(upperBounds, EMPTY_BOUNDS);
+            this.lowerBounds = ObjectUtils.defaultIfNull(lowerBounds, EMPTY_BOUNDS);
         }
 
         /**
@@ -296,7 +289,7 @@ public class TypeUtils {
      * <p>Checks if the subject type may be implicitly cast to the target type
      * following the Java generics rules. If both types are {@link Class}
      * objects, the method returns the result of
-     * {@link org.apache.commons.lang3a.ClassUtils#isAssignable(Class, Class)}.</p>
+     * {@link ClassUtils#isAssignable(Class, Class)}.</p>
      *
      * @param type the subject type to be assigned to the target type
      * @param toType the target type
@@ -367,7 +360,7 @@ public class TypeUtils {
 
         if (type instanceof Class<?>) {
             // just comparing two classes
-            return org.apache.commons.lang3a.ClassUtils.isAssignable((Class<?>) type, toClass);
+            return ClassUtils.isAssignable((Class<?>) type, toClass);
         }
 
         if (type instanceof ParameterizedType) {
@@ -458,6 +451,10 @@ public class TypeUtils {
         for (final TypeVariable<?> var : toTypeVarAssigns.keySet()) {
             final Type toTypeArg = unrollVariableAssignments(var, toTypeVarAssigns);
             final Type fromTypeArg = unrollVariableAssignments(var, fromTypeVarAssigns);
+
+            if (toTypeArg == null && fromTypeArg instanceof Class) {
+                continue;
+            }
 
             // parameters must either be absent from the subject type, within
             // the bounds of the wildcard type, or be an exact match to the
@@ -905,7 +902,7 @@ public class TypeUtils {
             }
 
             // work with wrapper the wrapper class instead of the primitive
-            cls = org.apache.commons.lang3a.ClassUtils.primitiveToWrapper(cls);
+            cls = ClassUtils.primitiveToWrapper(cls);
         }
 
         // create a copy of the incoming map, or an empty one if it's null
@@ -950,8 +947,8 @@ public class TypeUtils {
      */
     public static Map<TypeVariable<?>, Type> determineTypeArguments(final Class<?> cls,
             final ParameterizedType superType) {
-        org.apache.commons.lang3a.Validate.notNull(cls, "cls is null");
-        org.apache.commons.lang3a.Validate.notNull(superType, "superType is null");
+        Validate.notNull(cls, "cls is null");
+        Validate.notNull(superType, "superType is null");
 
         final Class<?> superClass = getRawType(superType);
 
@@ -1117,7 +1114,7 @@ public class TypeUtils {
      * redundant types.
      */
     public static Type[] normalizeUpperBounds(final Type[] bounds) {
-        org.apache.commons.lang3a.Validate.notNull(bounds, "null value specified for bounds array");
+        Validate.notNull(bounds, "null value specified for bounds array");
         // don't bother if there's only one (or none) type
         if (bounds.length < 2) {
             return bounds;
@@ -1153,7 +1150,7 @@ public class TypeUtils {
      * @return a non-empty array containing the bounds of the type variable.
      */
     public static Type[] getImplicitBounds(final TypeVariable<?> typeVariable) {
-        org.apache.commons.lang3a.Validate.notNull(typeVariable, "typeVariable is null");
+        Validate.notNull(typeVariable, "typeVariable is null");
         final Type[] bounds = typeVariable.getBounds();
 
         return bounds.length == 0 ? new Type[] { Object.class } : normalizeUpperBounds(bounds);
@@ -1170,7 +1167,7 @@ public class TypeUtils {
      * type.
      */
     public static Type[] getImplicitUpperBounds(final WildcardType wildcardType) {
-        org.apache.commons.lang3a.Validate.notNull(wildcardType, "wildcardType is null");
+        Validate.notNull(wildcardType, "wildcardType is null");
         final Type[] bounds = wildcardType.getUpperBounds();
 
         return bounds.length == 0 ? new Type[] { Object.class } : normalizeUpperBounds(bounds);
@@ -1186,7 +1183,7 @@ public class TypeUtils {
      * type.
      */
     public static Type[] getImplicitLowerBounds(final WildcardType wildcardType) {
-        org.apache.commons.lang3a.Validate.notNull(wildcardType, "wildcardType is null");
+        Validate.notNull(wildcardType, "wildcardType is null");
         final Type[] bounds = wildcardType.getLowerBounds();
 
         return bounds.length == 0 ? new Type[] { null } : bounds;
@@ -1206,7 +1203,7 @@ public class TypeUtils {
      * variables.
      */
     public static boolean typesSatisfyVariables(final Map<TypeVariable<?>, Type> typeVarAssigns) {
-        org.apache.commons.lang3a.Validate.notNull(typeVarAssigns, "typeVarAssigns is null");
+        Validate.notNull(typeVarAssigns, "typeVarAssigns is null");
         // all types must be assignable to all the bounds of the their mapped
         // type variable.
         for (final Map.Entry<TypeVariable<?>, Type> entry : typeVarAssigns.entrySet()) {
@@ -1403,7 +1400,7 @@ public class TypeUtils {
         for (; i < result.length; i++) {
             final Type unrolled = unrollVariables(typeArguments, result[i]);
             if (unrolled == null) {
-                result = org.apache.commons.lang3a.ArrayUtils.remove(result, i--);
+                result = ArrayUtils.remove(result, i--);
             } else {
                 result[i] = unrolled;
             }
@@ -1463,8 +1460,8 @@ public class TypeUtils {
      */
     public static final ParameterizedType parameterize(final Class<?> raw,
         final Map<TypeVariable<?>, Type> typeArgMappings) {
-        org.apache.commons.lang3a.Validate.notNull(raw, "raw class is null");
-        org.apache.commons.lang3a.Validate.notNull(typeArgMappings, "typeArgMappings is null");
+        Validate.notNull(raw, "raw class is null");
+        Validate.notNull(typeArgMappings, "typeArgMappings is null");
         return parameterizeWithOwner(null, raw, extractTypeArgumentsFrom(typeArgMappings, raw.getTypeParameters()));
     }
 
@@ -1480,21 +1477,21 @@ public class TypeUtils {
      */
     public static final ParameterizedType parameterizeWithOwner(final Type owner, final Class<?> raw,
         final Type... typeArguments) {
-        org.apache.commons.lang3a.Validate.notNull(raw, "raw class is null");
+        Validate.notNull(raw, "raw class is null");
         final Type useOwner;
         if (raw.getEnclosingClass() == null) {
-            org.apache.commons.lang3a.Validate.isTrue(owner == null, "no owner allowed for top-level %s", raw);
+            Validate.isTrue(owner == null, "no owner allowed for top-level %s", raw);
             useOwner = null;
         } else if (owner == null) {
             useOwner = raw.getEnclosingClass();
         } else {
-            org.apache.commons.lang3a.Validate.isTrue(TypeUtils.isAssignable(owner, raw.getEnclosingClass()),
+            Validate.isTrue(TypeUtils.isAssignable(owner, raw.getEnclosingClass()),
                 "%s is invalid owner type for parameterized %s", owner, raw);
             useOwner = owner;
         }
-        org.apache.commons.lang3a.Validate.noNullElements(typeArguments, "null type argument at index %s");
-        org.apache.commons.lang3a.Validate.isTrue(raw.getTypeParameters().length == typeArguments.length,
-            "invalid number of type parameters specified: expected %s, got %s", raw.getTypeParameters().length,
+        Validate.noNullElements(typeArguments, "null type argument at index %s");
+        Validate.isTrue(raw.getTypeParameters().length == typeArguments.length,
+            "invalid number of type parameters specified: expected %d, got %d", raw.getTypeParameters().length,
             typeArguments.length);
 
         return new ParameterizedTypeImpl(raw, useOwner, typeArguments);
@@ -1511,8 +1508,8 @@ public class TypeUtils {
      */
     public static final ParameterizedType parameterizeWithOwner(final Type owner, final Class<?> raw,
         final Map<TypeVariable<?>, Type> typeArgMappings) {
-        org.apache.commons.lang3a.Validate.notNull(raw, "raw class is null");
-        org.apache.commons.lang3a.Validate.notNull(typeArgMappings, "typeArgMappings is null");
+        Validate.notNull(raw, "raw class is null");
+        Validate.notNull(typeArgMappings, "typeArgMappings is null");
         return parameterizeWithOwner(owner, raw, extractTypeArgumentsFrom(typeArgMappings, raw.getTypeParameters()));
     }
 
@@ -1526,7 +1523,7 @@ public class TypeUtils {
         final Type[] result = new Type[variables.length];
         int index = 0;
         for (final TypeVariable<?> var : variables) {
-            org.apache.commons.lang3a.Validate.isTrue(mappings.containsKey(var), "missing argument mapping for %s", toString(var));
+            Validate.isTrue(mappings.containsKey(var), "missing argument mapping for %s", toString(var));
             result[index++] = mappings.get(var);
         }
         return result;
@@ -1550,7 +1547,7 @@ public class TypeUtils {
      * @since 3.2
      */
     public static GenericArrayType genericArrayType(final Type componentType) {
-        return new GenericArrayTypeImpl(org.apache.commons.lang3a.Validate.notNull(componentType, "componentType is null"));
+        return new GenericArrayTypeImpl(Validate.notNull(componentType, "componentType is null"));
     }
 
     /**
@@ -1563,7 +1560,7 @@ public class TypeUtils {
      */
     @SuppressWarnings( "deprecation" )  // ObjectUtils.equals(Object, Object) has been deprecated in 3.2
     public static boolean equals(final Type t1, final Type t2) {
-        if (org.apache.commons.lang3a.ObjectUtils.equals(t1, t2)) {
+        if (ObjectUtils.equals(t1, t2)) {
             return true;
         }
         if (t1 instanceof ParameterizedType) {
@@ -1620,7 +1617,7 @@ public class TypeUtils {
             return equals(getImplicitLowerBounds(w), getImplicitLowerBounds(other))
                 && equals(getImplicitUpperBounds(w), getImplicitUpperBounds(other));
         }
-        return true;
+        return false;
     }
 
     /**
@@ -1650,7 +1647,7 @@ public class TypeUtils {
      * @since 3.2
      */
     public static String toString(final Type type) {
-        org.apache.commons.lang3a.Validate.notNull(type);
+        Validate.notNull(type);
         if (type instanceof Class<?>) {
             return classToString((Class<?>) type);
         }
@@ -1666,7 +1663,7 @@ public class TypeUtils {
         if (type instanceof GenericArrayType) {
             return genericArrayTypeToString((GenericArrayType) type);
         }
-        throw new IllegalArgumentException(org.apache.commons.lang3a.ObjectUtils.identityToString(type));
+        throw new IllegalArgumentException(ObjectUtils.identityToString(type));
     }
 
     /**
@@ -1677,7 +1674,7 @@ public class TypeUtils {
      * @since 3.2
      */
     public static String toLongString(final TypeVariable<?> var) {
-        org.apache.commons.lang3a.Validate.notNull(var, "var is null");
+        Validate.notNull(var, "var is null");
         final StringBuilder buf = new StringBuilder();
         final GenericDeclaration d = ((TypeVariable<?>) var).getGenericDeclaration();
         if (d instanceof Class<?>) {
@@ -1829,7 +1826,7 @@ public class TypeUtils {
      * @since 3.2
      */
     private static StringBuilder appendAllTo(final StringBuilder buf, final String sep, final Type... types) {
-        org.apache.commons.lang3a.Validate.notEmpty(org.apache.commons.lang3a.Validate.noNullElements(types));
+        Validate.notEmpty(Validate.noNullElements(types));
         if (types.length > 0) {
             buf.append(toString(types[0]));
             for (int i = 1; i < types.length; i++) {

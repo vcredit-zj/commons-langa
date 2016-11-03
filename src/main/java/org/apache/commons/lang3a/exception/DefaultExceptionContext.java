@@ -16,12 +16,11 @@
  */
 package org.apache.commons.lang3a.exception;
 
+import org.apache.commons.lang3a.tuple.ImmutablePair;
+import org.apache.commons.lang3a.tuple.Pair;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation of the context storing the label-value pairs for contexted exceptions.
@@ -40,14 +39,14 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
     private static final long serialVersionUID = 20110706L;
 
     /** The list storing the label-data pairs. */
-    private final List<org.apache.commons.lang3a.tuple.Pair<String, Object>> contextValues = new ArrayList<org.apache.commons.lang3a.tuple.Pair<String,Object>>();
+    private final List<Pair<String, Object>> contextValues = new ArrayList<Pair<String,Object>>();
 
     /**
      * {@inheritDoc}
      */
     @Override
     public DefaultExceptionContext addContextValue(final String label, final Object value) {
-        contextValues.add(new org.apache.commons.lang3a.tuple.ImmutablePair<String, Object>(label, value));
+        contextValues.add(new ImmutablePair<String, Object>(label, value));
         return this;
     }
 
@@ -56,9 +55,9 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
      */
     @Override
     public DefaultExceptionContext setContextValue(final String label, final Object value) {
-        for (final Iterator<org.apache.commons.lang3a.tuple.Pair<String, Object>> iter = contextValues.iterator(); iter.hasNext();) {
-            final org.apache.commons.lang3a.tuple.Pair<String, Object> p = iter.next();
-            if (org.apache.commons.lang3a.StringUtils.equals(label, p.getKey())) {
+        for (final Iterator<Pair<String, Object>> iter = contextValues.iterator(); iter.hasNext();) {
+            final Pair<String, Object> p = iter.next();
+            if (StringUtils.equals(label, p.getKey())) {
                 iter.remove();
             }
         }
@@ -72,8 +71,8 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
     @Override
     public List<Object> getContextValues(final String label) {
         final List<Object> values = new ArrayList<Object>();
-        for (final org.apache.commons.lang3a.tuple.Pair<String, Object> pair : contextValues) {
-            if (org.apache.commons.lang3a.StringUtils.equals(label, pair.getKey())) {
+        for (final Pair<String, Object> pair : contextValues) {
+            if (StringUtils.equals(label, pair.getKey())) {
                 values.add(pair.getValue());
             }
         }
@@ -85,8 +84,8 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
      */
     @Override
     public Object getFirstContextValue(final String label) {
-        for (final org.apache.commons.lang3a.tuple.Pair<String, Object> pair : contextValues) {
-            if (org.apache.commons.lang3a.StringUtils.equals(label, pair.getKey())) {
+        for (final Pair<String, Object> pair : contextValues) {
+            if (StringUtils.equals(label, pair.getKey())) {
                 return pair.getValue();
             }
         }
@@ -99,7 +98,7 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
     @Override
     public Set<String> getContextLabels() {
         final Set<String> labels = new HashSet<String>();
-        for (final org.apache.commons.lang3a.tuple.Pair<String, Object> pair : contextValues) {
+        for (final Pair<String, Object> pair : contextValues) {
             labels.add(pair.getKey());
         }
         return labels;
@@ -109,7 +108,7 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public List<org.apache.commons.lang3a.tuple.Pair<String, Object>> getContextEntries() {
+    public List<Pair<String, Object>> getContextEntries() {
         return contextValues;
     }
 
@@ -133,7 +132,7 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
             buffer.append("Exception Context:\n");
             
             int i = 0;
-            for (final org.apache.commons.lang3a.tuple.Pair<String, Object> pair : contextValues) {
+            for (final Pair<String, Object> pair : contextValues) {
                 buffer.append("\t[");
                 buffer.append(++i);
                 buffer.append(':');
@@ -147,7 +146,7 @@ public class DefaultExceptionContext implements ExceptionContext, Serializable {
                     try {
                         valueStr = value.toString();
                     } catch (final Exception e) {
-                        valueStr = "Exception thrown on toString(): " + org.apache.commons.lang3a.exception.ExceptionUtils.getStackTrace(e);
+                        valueStr = "Exception thrown on toString(): " + ExceptionUtils.getStackTrace(e);
                     }
                     buffer.append(valueStr);
                 }

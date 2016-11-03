@@ -26,9 +26,8 @@ package org.apache.commons.lang3a.builder;
  * program to access.</p>
  *
  * @since 1.0
- * @version $Id$
  */
-public class StandardToStringStyle extends org.apache.commons.lang3a.builder.ToStringStyle {
+public class StandardToStringStyle extends ToStringStyle {
     
     /**
      * Required for serialization support.

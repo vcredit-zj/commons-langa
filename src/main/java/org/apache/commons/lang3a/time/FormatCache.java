@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentMap;
  * <p>FormatCache is a cache and factory for {@link Format}s.</p>
  * 
  * @since 3.0
- * @version $Id: FormatCache 892161 2009-12-18 07:21:10Z  $
  */
 // TODO: Before making public move from getDateTimeInstance(Integer,...) to int; or some other approach.
 abstract class FormatCache<F extends Format> {
@@ -78,22 +77,22 @@ abstract class FormatCache<F extends Format> {
         }
         final MultipartKey key = new MultipartKey(pattern, timeZone, locale);
         F format = cInstanceCache.get(key);
-        if (format == null) {           
+        if (format == null) {
             format = createInstance(pattern, timeZone, locale);
             final F previousValue= cInstanceCache.putIfAbsent(key, format);
             if (previousValue != null) {
                 // another thread snuck in and did the same work
                 // we should return the instance that is in ConcurrentMap
-                format= previousValue;              
+                format= previousValue;
             }
         }
         return format;
     }
-    
+
     /**
      * <p>Create a format instance using the specified pattern, time zone
      * and locale.</p>
-     * 
+     *
      * @param pattern  {@link SimpleDateFormat} compatible pattern, this will not be null.
      * @param timeZone  time zone, this will not be null.
      * @param locale  locale, this will not be null.

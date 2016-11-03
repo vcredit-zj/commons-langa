@@ -16,10 +16,10 @@
  */
 package org.apache.commons.lang3a.tuple;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang3a.ObjectUtils;
 import org.apache.commons.lang3a.builder.CompareToBuilder;
+
+import java.io.Serializable;
 
 /**
  * <p>A triple consisting of three elements.</p>
@@ -35,7 +35,6 @@ import org.apache.commons.lang3a.builder.CompareToBuilder;
  * @param <M> the middle element type
  * @param <R> the right element type
  *
- * @version $Id$
  * @since 3.2
  */
 public abstract class Triple<L, M, R> implements Comparable<Triple<L, M, R>>, Serializable {
@@ -139,8 +138,7 @@ public abstract class Triple<L, M, R> implements Comparable<Triple<L, M, R>>, Se
      */
     @Override
     public String toString() {
-        return new StringBuilder().append('(').append(getLeft()).append(',').append(getMiddle()).append(',')
-            .append(getRight()).append(')').toString();
+        return "(" + getLeft() + "," + getMiddle() + "," + getRight() + ")";
     }
 
     /**

@@ -16,17 +16,18 @@
  */
 package org.apache.commons.lang3a.math;
 
+import org.apache.commons.lang3a.StringUtils;
+import org.apache.commons.lang3a.SystemUtils;
+import org.apache.commons.lang3a.Validate;
+
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import org.apache.commons.lang3a.Validate;
 
 /**
  * <p>Provides extra functionality for Java Number classes.</p>
  *
  * @since 2.0
- * @version $Id$
  */
 public class NumberUtils {
     
@@ -451,7 +452,7 @@ public class NumberUtils {
         if (str == null) {
             return null;
         }
-        if (org.apache.commons.lang3a.StringUtils.isBlank(str)) {
+        if (StringUtils.isBlank(str)) {
             throw new NumberFormatException("A blank string is not a valid number");
         }
         // Need to deal with all possible hex prefixes here
@@ -474,10 +475,10 @@ public class NumberUtils {
                 }
             }
             final int hexDigits = str.length() - pfxLen;
-            if (hexDigits > 16 || (hexDigits == 16 && firstSigDigit > '7')) { // too many for Long
+            if (hexDigits > 16 || hexDigits == 16 && firstSigDigit > '7') { // too many for Long
                 return createBigInteger(str);
             }
-            if (hexDigits > 8 || (hexDigits == 8 && firstSigDigit > '7')) { // too many for an int
+            if (hexDigits > 8 || hexDigits == 8 && firstSigDigit > '7') { // too many for an int
                 return createLong(str);
             }
             return createInteger(str);
@@ -491,9 +492,7 @@ public class NumberUtils {
         // if both e and E are present, this is caught by the checks on expPos (which prevent IOOBE)
         // and the parsing which will detect if e or E appear in a number due to using the wrong offset
 
-        int numDecimals = 0; // Check required precision (LANG-693)
         if (decPos > -1) { // there is a decimal point
-
             if (expPos > -1) { // there is an exponent
                 if (expPos < decPos || expPos > str.length()) { // prevents double exponent causing IOOBE
                     throw new NumberFormatException(str + " is not a valid number.");
@@ -503,7 +502,6 @@ public class NumberUtils {
                 dec = str.substring(decPos + 1);
             }
             mant = getMantissa(str, decPos);
-            numDecimals = dec.length(); // gets number of digits past the decimal to ensure no loss of precision for floating point numbers.
         } else {
             if (expPos > -1) {
                 if (expPos > str.length()) { // prevents double exponent causing IOOBE
@@ -542,8 +540,8 @@ public class NumberUtils {
                 case 'f' :
                 case 'F' :
                     try {
-                        final Float f = NumberUtils.createFloat(numeric);
-                        if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+                        final Float f = NumberUtils.createFloat(str);
+                        if (!(f.isInfinite() || f.floatValue() == 0.0F && !allZeros)) {
                             //If it's too big for a float or the float value = 0 and the string
                             //has non-zeros in it, then float does not have the precision we want
                             return f;
@@ -556,8 +554,8 @@ public class NumberUtils {
                 case 'd' :
                 case 'D' :
                     try {
-                        final Double d = NumberUtils.createDouble(numeric);
-                        if (!(d.isInfinite() || (d.floatValue() == 0.0D && !allZeros))) {
+                        final Double d = NumberUtils.createDouble(str);
+                        if (!(d.isInfinite() || d.floatValue() == 0.0D && !allZeros)) {
                             return d;
                         }
                     } catch (final NumberFormatException nfe) { // NOPMD
@@ -599,26 +597,23 @@ public class NumberUtils {
         //Must be a Float, Double, BigDecimal
         final boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
         try {
-            if(numDecimals <= 7){// If number has 7 or fewer digits past the decimal point then make it a float
-                final Float f = createFloat(str);
-                if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
-                    return f;
-                }
+            final Float f = createFloat(str);
+            final Double d = createDouble(str);
+            if (!f.isInfinite()
+                    && !(f.floatValue() == 0.0F && !allZeros)
+                    && f.toString().equals(d.toString())) {
+                return f;
             }
-        } catch (final NumberFormatException nfe) { // NOPMD
-            // ignore the bad number
-        }
-        try {
-            if(numDecimals <= 16){// If number has between 8 and 16 digits past the decimal point then make it a double
-                final Double d = createDouble(str);
-                if (!(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros))) {
+            if (!d.isInfinite() && !(d.doubleValue() == 0.0D && !allZeros)) {
+                final BigDecimal b = createBigDecimal(str);
+                if (b.compareTo(BigDecimal.valueOf(d)) == 0) {
                     return d;
                 }
+                return b;
             }
         } catch (final NumberFormatException nfe) { // NOPMD
             // ignore the bad number
         }
-
         return createBigDecimal(str);
     }
 
@@ -626,7 +621,7 @@ public class NumberUtils {
      * <p>Utility method for {@link #createNumber(String)}.</p>
      *
      * <p>Returns mantissa of the given number.</p>
-     * 
+     *
      * @param str the string representation of the number
      * @return mantissa of the given number
      */
@@ -638,14 +633,14 @@ public class NumberUtils {
      * <p>Utility method for {@link #createNumber(String)}.</p>
      *
      * <p>Returns mantissa of the given number.</p>
-     * 
+     *
      * @param str the string representation of the number
      * @param stopPos the position of the exponent or decimal point
      * @return mantissa of the given number
      */
     private static String getMantissa(final String str, final int stopPos) {
         final char firstChar = str.charAt(0);
-        final boolean hasSign = (firstChar == '-' || firstChar == '+');
+        final boolean hasSign = firstChar == '-' || firstChar == '+';
 
         return hasSign ? str.substring(1, stopPos) : str.substring(0, stopPos);
     }
@@ -790,7 +785,7 @@ public class NumberUtils {
             return null;
         }
         // handle JDK1.3.1 bug where "" throws IndexOutOfBoundsException
-        if (org.apache.commons.lang3a.StringUtils.isBlank(str)) {
+        if (StringUtils.isBlank(str)) {
             throw new NumberFormatException("A blank string is not a valid number");
         }
         if (str.trim().startsWith("--")) {
@@ -1348,24 +1343,16 @@ public class NumberUtils {
      * @return <code>true</code> if str contains only Unicode numeric
      */
     public static boolean isDigits(final String str) {
-        if (org.apache.commons.lang3a.StringUtils.isEmpty(str)) {
-            return false;
-        }
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+        return StringUtils.isNumeric(str);
     }
 
     /**
      * <p>Checks whether the String a valid Java number.</p>
      *
      * <p>Valid numbers include hexadecimal marked with the <code>0x</code> or
-     * <code>0X</code> qualifier, octal numbers, scientific notation and numbers 
-     * marked with a type qualifier (e.g. 123L).</p>
-     * 
+     * <code>0X</code> qualifier, octal numbers, scientific notation and
+     * numbers marked with a type qualifier (e.g. 123L).</p>
+     *
      * <p>Non-hexadecimal strings beginning with a leading zero are
      * treated as octal values. Thus the string <code>09</code> will return
      * <code>false</code>, since <code>9</code> is not a valid octal value.
@@ -1374,12 +1361,45 @@ public class NumberUtils {
      * <p><code>null</code> and empty/blank {@code String} will return
      * <code>false</code>.</p>
      *
+     * <p>Note, {@link #createNumber(String)} should return a number for every
+     * input resuling in <code>true</code>.</p>
+     *
      * @param str  the <code>String</code> to check
      * @return <code>true</code> if the string is a correctly formatted number
-     * @since 3.3 the code supports hex {@code 0Xhhh} and octal {@code 0ddd} validation
+     * @since 3.3 the code supports hex {@code 0Xhhh} an
+     *        octal {@code 0ddd} validation
+     * @deprecated This feature will be removed in Lang 4.0,
+     *             use {@link NumberUtils#isCreatable(String)} instead
      */
+    @Deprecated
     public static boolean isNumber(final String str) {
-        if (org.apache.commons.lang3a.StringUtils.isEmpty(str)) {
+        return isCreatable(str);
+    }
+
+    /**
+     * <p>Checks whether the String a valid Java number.</p>
+     *
+     * <p>Valid numbers include hexadecimal marked with the <code>0x</code> or
+     * <code>0X</code> qualifier, octal numbers, scientific notation and
+     * numbers marked with a type qualifier (e.g. 123L).</p>
+     *
+     * <p>Non-hexadecimal strings beginning with a leading zero are
+     * treated as octal values. Thus the string <code>09</code> will return
+     * <code>false</code>, since <code>9</code> is not a valid octal value.
+     * However, numbers beginning with {@code 0.} are treated as decimal.</p>
+     *
+     * <p><code>null</code> and empty/blank {@code String} will return
+     * <code>false</code>.</p>
+     *
+     * <p>Note, {@link #createNumber(String)} should return a number for every
+     * input resuling in <code>true</code>.</p>
+     *
+     * @param str  the <code>String</code> to check
+     * @return <code>true</code> if the string is a correctly formatted number
+     * @since 3.5 the code supports the "+" suffix on numbers except for integers in Java 1.6
+     */
+    public static boolean isCreatable(final String str) {
+        if (StringUtils.isEmpty(str)) {
             return false;
         }
         final char[] chars = str.toCharArray();
@@ -1389,12 +1409,10 @@ public class NumberUtils {
         boolean allowSigns = false;
         boolean foundDigit = false;
         // deal with any possible sign up front
-        final int start = (chars[0] == '-') ? 1 : 0;
+        final int start = chars[0] == '-' || chars[0] == '+' ? 1 : 0;
+        final boolean hasLeadingPlusSign = start == 1 && chars[0] == '+';
         if (sz > start + 1 && chars[start] == '0') { // leading 0
-            if (
-                 (chars[start + 1] == 'x') || 
-                 (chars[start + 1] == 'X') 
-            ) { // leading 0x/0X
+            if (chars[start + 1] == 'x' || chars[start + 1] == 'X') { // leading 0x/0X
                 int i = start + 2;
                 if (i == sz) {
                     return false; // str == "0x"
@@ -1424,7 +1442,7 @@ public class NumberUtils {
         int i = start;
         // loop to the next to last char or to the last char if we need another digit to
         // make a valid number (e.g. chars[0..5] = "1234E")
-        while (i < sz || (i < sz + 1 && allowSigns && !foundDigit)) {
+        while (i < sz || i < sz + 1 && allowSigns && !foundDigit) {
             if (chars[i] >= '0' && chars[i] <= '9') {
                 foundDigit = true;
                 allowSigns = false;
@@ -1459,6 +1477,9 @@ public class NumberUtils {
         }
         if (i < chars.length) {
             if (chars[i] >= '0' && chars[i] <= '9') {
+                if (SystemUtils.IS_JAVA_1_6 && hasLeadingPlusSign && !hasDecPoint) {
+                    return false;
+                }
                 // no type qualifier, OK
                 return true;
             }
@@ -1503,7 +1524,7 @@ public class NumberUtils {
      * when calling one of those methods.</p>
      *
      * <p>Hexadecimal and scientific notations are <strong>not</strong> considered parsable.
-     * See {@link #isNumber(String)} on those cases.</p>
+     * See {@link #isCreatable(String)} on those cases.</p>
      *
      * <p>{@code Null} and empty String will return <code>false</code>.</p>
      *
@@ -1512,14 +1533,37 @@ public class NumberUtils {
      * @since 3.4
      */
     public static boolean isParsable(final String str) {
-        if( org.apache.commons.lang3a.StringUtils.endsWith( str, "." ) ) {
+        if (StringUtils.isEmpty(str)) {
             return false;
         }
-        if( org.apache.commons.lang3a.StringUtils.startsWith( str, "-" ) ) {
-            return isDigits( org.apache.commons.lang3a.StringUtils.replaceOnce( str.substring(1), ".", org.apache.commons.lang3a.StringUtils.EMPTY ) );
-        } else {
-            return isDigits( org.apache.commons.lang3a.StringUtils.replaceOnce( str, ".", org.apache.commons.lang3a.StringUtils.EMPTY ) );
+        if (str.charAt(str.length() - 1) == '.') {
+            return false;
         }
+        if (str.charAt(0) == '-') {
+            if (str.length() == 1) {
+                return false;
+            }
+            return withDecimalsParsing(str, 1);
+        } else {
+            return withDecimalsParsing(str, 0);
+        }
+    }
+
+    private static boolean withDecimalsParsing(final String str, final int beginIdx) {
+        int decimalPoints = 0;
+        for (int i = beginIdx; i < str.length(); i++) {
+            final boolean isDecimalPoint = str.charAt(i) == '.';
+            if (isDecimalPoint) {
+                decimalPoints++;
+            }
+            if (decimalPoints > 1) {
+                return false;
+            }
+            if (!isDecimalPoint && !Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -1536,11 +1580,7 @@ public class NumberUtils {
         if (x == y) {
             return 0;
         }
-        if (x < y) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return x < y ? -1 : 1;
     }
 
     /**
@@ -1557,11 +1597,7 @@ public class NumberUtils {
         if (x == y) {
             return 0;
         }
-        if (x < y) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return x < y ? -1 : 1;
     }
 
     /**
@@ -1578,11 +1614,7 @@ public class NumberUtils {
         if (x == y) {
             return 0;
         }
-        if (x < y) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return x < y ? -1 : 1;
     }
 
     /**
@@ -1596,6 +1628,6 @@ public class NumberUtils {
      * @since 3.4
      */
     public static int compare(byte x, byte y) {
-        return x-y;
+        return x - y;
     }
 }

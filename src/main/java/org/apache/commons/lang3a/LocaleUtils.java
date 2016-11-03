@@ -16,13 +16,7 @@
  */
 package org.apache.commons.lang3a;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -34,7 +28,6 @@ import java.util.concurrent.ConcurrentMap;
  * Each method documents its behaviour in more detail.</p>
  *
  * @since 2.2
- * @version $Id$
  */
 public class LocaleUtils {
 
@@ -92,7 +85,7 @@ public class LocaleUtils {
             return null;
         }
         if (str.isEmpty()) { // LANG-941 - JDK 8 introduced an empty locale where all fields are blank
-            return new Locale("", "");
+            return new Locale(StringUtils.EMPTY, StringUtils.EMPTY);
         }
         if (str.contains("#")) { // LANG-879 - Cannot handle Java 7 script & extensions
             throw new IllegalArgumentException("Invalid locale format: " + str);
@@ -112,7 +105,7 @@ public class LocaleUtils {
                 throw new IllegalArgumentException("Invalid locale format: " + str);
             }
             if (len == 3) {
-                return new Locale("", str.substring(1, 3));
+                return new Locale(StringUtils.EMPTY, str.substring(1, 3));
             }
             if (len < 5) {
                 throw new IllegalArgumentException("Invalid locale format: " + str);
@@ -120,7 +113,7 @@ public class LocaleUtils {
             if (str.charAt(3) != '_') {
                 throw new IllegalArgumentException("Invalid locale format: " + str);
             }
-            return new Locale("", str.substring(1, 3), str.substring(4));
+            return new Locale(StringUtils.EMPTY, str.substring(1, 3), str.substring(4));
         }
         
         final String[] split = str.split("_", -1);
@@ -143,7 +136,7 @@ public class LocaleUtils {
             case 2:
                 if (StringUtils.isAllLowerCase(split[0]) && 
                     (split[0].length() == 2 || split[0].length() == 3) &&
-                    (split[1].length() == 0 || (split[1].length() == 2 && StringUtils.isAllUpperCase(split[1]))) &&
+                    (split[1].length() == 0 || split[1].length() == 2 && StringUtils.isAllUpperCase(split[1])) &&
                      split[2].length() > 0) {
                     return new Locale(split[0], split[1], split[2]);
                 }
@@ -197,7 +190,7 @@ public class LocaleUtils {
                 list.add(new Locale(locale.getLanguage(), locale.getCountry()));
             }
             if (locale.getCountry().length() > 0) {
-                list.add(new Locale(locale.getLanguage(), ""));
+                list.add(new Locale(locale.getLanguage(), StringUtils.EMPTY));
             }
             if (list.contains(defaultLocale) == false) {
                 list.add(defaultLocale);

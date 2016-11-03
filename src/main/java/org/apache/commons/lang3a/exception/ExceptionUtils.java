@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -30,7 +31,6 @@ import java.util.StringTokenizer;
  * <code>Throwable</code> objects.</p>
  *
  * @since 1.0
- * @version $Id$
  */
 public class ExceptionUtils {
     
@@ -83,7 +83,7 @@ public class ExceptionUtils {
      */
     @Deprecated
     public static String[] getDefaultCauseMethodNames() {
-        return org.apache.commons.lang3a.ArrayUtils.clone(CAUSE_METHOD_NAMES);
+        return ArrayUtils.clone(CAUSE_METHOD_NAMES);
     }
 
     //-----------------------------------------------------------------------
@@ -112,11 +112,11 @@ public class ExceptionUtils {
      * @return the cause of the <code>Throwable</code>,
      *  <code>null</code> if none found or null throwable input
      * @since 1.0
-     * @deprecated This feature will be removed in Lang 4.0
+     * @deprecated This feature will be removed in Lang 4.0, use {@link Throwable#getCause} instead
      */
     @Deprecated
     public static Throwable getCause(final Throwable throwable) {
-        return getCause(throwable, CAUSE_METHOD_NAMES);
+        return getCause(throwable, null);
     }
 
     /**
@@ -130,7 +130,7 @@ public class ExceptionUtils {
      * @return the cause of the <code>Throwable</code>,
      *  <code>null</code> if none found or null throwable input
      * @since 1.0
-     * @deprecated This feature will be removed in Lang 4.0
+     * @deprecated This feature will be removed in Lang 4.0, use {@link Throwable#getCause} instead
      */
     @Deprecated
     public static Throwable getCause(final Throwable throwable, String[] methodNames) {
@@ -139,14 +139,19 @@ public class ExceptionUtils {
         }
 
         if (methodNames == null) {
+            final Throwable cause = throwable.getCause();
+            if (cause != null) {
+                return cause;
+            }
+
             methodNames = CAUSE_METHOD_NAMES;
         }
 
         for (final String methodName : methodNames) {
             if (methodName != null) {
-                final Throwable cause = getCauseUsingMethodName(throwable, methodName);
-                if (cause != null) {
-                    return cause;
+                final Throwable legacyCause = getCauseUsingMethodName(throwable, methodName);
+                if (legacyCause != null) {
+                    return legacyCause;
                 }
             }
         }
@@ -510,7 +515,7 @@ public class ExceptionUtils {
      */
     public static String[] getRootCauseStackTrace(final Throwable throwable) {
         if (throwable == null) {
-            return org.apache.commons.lang3a.ArrayUtils.EMPTY_STRING_ARRAY;
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         }
         final Throwable throwables[] = getThrowables(throwable);
         final int count = throwables.length;
@@ -596,7 +601,7 @@ public class ExceptionUtils {
      */
     public static String[] getStackFrames(final Throwable throwable) {
         if (throwable == null) {
-            return org.apache.commons.lang3a.ArrayUtils.EMPTY_STRING_ARRAY;
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         }
         return getStackFrames(getStackTrace(throwable));
     }
@@ -605,13 +610,13 @@ public class ExceptionUtils {
     /**
      * <p>Returns an array where each element is a line from the argument.</p>
      *
-     * <p>The end of line is determined by the value of {@link org.apache.commons.lang3a.SystemUtils#LINE_SEPARATOR}.</p>
+     * <p>The end of line is determined by the value of {@link SystemUtils#LINE_SEPARATOR}.</p>
      *
      * @param stackTrace  a stack trace String
      * @return an array where each element is a line from the argument
      */
     static String[] getStackFrames(final String stackTrace) {
-        final String linebreak = org.apache.commons.lang3a.SystemUtils.LINE_SEPARATOR;
+        final String linebreak = SystemUtils.LINE_SEPARATOR;
         final StringTokenizer frames = new StringTokenizer(stackTrace, linebreak);
         final List<String> list = new ArrayList<String>();
         while (frames.hasMoreTokens()) {
@@ -634,7 +639,7 @@ public class ExceptionUtils {
      */
     static List<String> getStackFrameList(final Throwable t) {
         final String stackTrace = getStackTrace(t);
-        final String linebreak = org.apache.commons.lang3a.SystemUtils.LINE_SEPARATOR;
+        final String linebreak = SystemUtils.LINE_SEPARATOR;
         final StringTokenizer frames = new StringTokenizer(stackTrace, linebreak);
         final List<String> list = new ArrayList<String>();
         boolean traceStarted = false;
@@ -665,11 +670,11 @@ public class ExceptionUtils {
      */
     public static String getMessage(final Throwable th) {
         if (th == null) {
-            return "";
+            return StringUtils.EMPTY;
         }
-        final String clsName = org.apache.commons.lang3a.ClassUtils.getShortClassName(th, null);
+        final String clsName = ClassUtils.getShortClassName(th, null);
         final String msg = th.getMessage();
-        return clsName + ": " + org.apache.commons.lang3a.StringUtils.defaultString(msg);
+        return clsName + ": " + StringUtils.defaultString(msg);
     }
 
     //-----------------------------------------------------------------------
@@ -689,4 +694,126 @@ public class ExceptionUtils {
         return getMessage(root);
     }
 
+    /**
+     * Throw a checked exception without adding the exception to the throws
+     * clause of the calling method. This method prevents throws clause
+     * pollution and reduces the clutter of "Caused by" exceptions in the
+     * stacktrace.
+     * <p>
+     * The use of this technique may be controversial, but exceedingly useful to
+     * library developers.
+     * <code>
+     *  public int propagateExample { // note that there is no throws clause
+     *      try {
+     *          return invocation(); // throws IOException
+     *      } catch (Exception e) {
+     *          return ExceptionUtils.rethrow(e);  // propagates a checked exception
+     *      }
+     *  }
+     * </code>
+     * <p>
+     * This is an alternative to the more conservative approach of wrapping the
+     * checked exception in a RuntimeException:
+     * <code>
+     *  public int wrapExample { // note that there is no throws clause
+     *      try {
+     *          return invocation(); // throws IOException
+     *      } catch (Error e) {
+     *          throw e;
+     *      } catch (RuntimeException e) {
+     *          throw e;  // wraps a checked exception
+     *      } catch (Exception e) {
+     *          throw new UndeclaredThrowableException(e);  // wraps a checked exception
+     *      }
+     *  }
+     * </code>
+     * <p>
+     * One downside to using this approach is that the java compiler will not
+     * allow invoking code to specify a checked exception in a catch clause
+     * unless there is some code path within the try block that has invoked a
+     * method declared with that checked exception. If the invoking site wishes
+     * to catch the shaded checked exception, it must either invoke the shaded
+     * code through a method re-declaring the desired checked exception, or
+     * catch Exception and use the instanceof operator. Either of these
+     * techniques are required when interacting with non-java jvm code such as
+     * Jyton, Scala, or Groovy, since these languages do not consider any
+     * exceptions as checked.
+     *
+     * @param throwable
+     *            The throwable to rethrow.
+     * @param <R> The type of the returned value.
+     * @return Never actually returned, this generic type matches any type
+     *         which the calling site requires. "Returning" the results of this
+     *         method, as done in the propagateExample above, will satisfy the
+     *         java compiler requirement that all code paths return a value.
+     * @since 3.5
+     * @see #wrapAndThrow(Throwable)
+     */
+    public static <R> R rethrow(Throwable throwable) {
+        // claim that the typeErasure invocation throws a RuntimeException
+        return ExceptionUtils.<R, RuntimeException> typeErasure(throwable);
+    }
+
+    /**
+     * Claim a Throwable is another Exception type using type erasure. This
+     * hides a checked exception from the java compiler, allowing a checked
+     * exception to be thrown without having the exception in the method's throw
+     * clause.
+     */
+    @SuppressWarnings("unchecked")
+    private static <R, T extends Throwable> R typeErasure(Throwable throwable) throws T {
+        throw (T) throwable;
+    }
+
+    /**
+     * Throw a checked exception without adding the exception to the throws
+     * clause of the calling method. For checked exceptions, this method throws
+     * an UndeclaredThrowableException wrapping the checked exception. For
+     * Errors and RuntimeExceptions, the original exception is rethrown.
+     * <p>
+     * The downside to using this approach is that invoking code which needs to
+     * handle specific checked exceptions must sniff up the exception chain to
+     * determine if the caught exception was caused by the checked exception.
+     *
+     * @param throwable
+     *            The throwable to rethrow.
+     * @param <R> The type of the returned value.
+     * @return Never actually returned, this generic type matches any type
+     *         which the calling site requires. "Returning" the results of this
+     *         method will satisfy the java compiler requirement that all code
+     *         paths return a value.
+     * @since 3.5
+     * @see #rethrow(Throwable)
+     * @see #hasCause(Throwable, Class)
+     */
+    public static <R> R wrapAndThrow(Throwable throwable) {
+        if (throwable instanceof RuntimeException) {
+            throw (RuntimeException) throwable;
+        }
+        if (throwable instanceof Error) {
+            throw (Error) throwable;
+        }
+        throw new UndeclaredThrowableException(throwable);
+    }
+
+    /**
+     * Does the throwable's causal chain have an immediate or wrapped exception
+     * of the given type?
+     *
+     * @param chain
+     *            The root of a Throwable causal chain.
+     * @param type
+     *            The exception type to test.
+     * @return true, if chain is an instance of type or is an
+     *         UndeclaredThrowableException wrapping a cause.
+     * @since 3.5
+     * @see #wrapAndThrow(Throwable)
+     */
+    public static boolean hasCause(Throwable chain,
+            Class<? extends Throwable> type) {
+        if (chain instanceof UndeclaredThrowableException) {
+            chain = chain.getCause();
+        }
+        return type.isInstance(chain);
+    }
 }

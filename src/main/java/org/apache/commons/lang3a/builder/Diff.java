@@ -16,10 +16,11 @@
  */
 package org.apache.commons.lang3a.builder;
 
-import java.lang.reflect.Type;
-
 import org.apache.commons.lang3a.ObjectUtils;
 import org.apache.commons.lang3a.reflect.TypeUtils;
+import org.apache.commons.lang3a.tuple.Pair;
+
+import java.lang.reflect.Type;
 
 /**
  * <p>
@@ -38,9 +39,8 @@ import org.apache.commons.lang3a.reflect.TypeUtils;
  *            between primitive objects are stored as their Object wrapper
  *            equivalent.
  * @since 3.3
- * @version $Id$
  */
-public abstract class Diff<T> extends org.apache.commons.lang3a.tuple.Pair<T, T> {
+public abstract class Diff<T> extends Pair<T, T> {
 
     private static final long serialVersionUID = 1L;
 

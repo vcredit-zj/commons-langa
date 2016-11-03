@@ -16,9 +16,7 @@
  */
 package org.apache.commons.lang3a.text;
 
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Lookup a String key to a String value.
@@ -34,7 +32,6 @@ import java.util.Properties;
  * key as a primary key, and looked up the value on demand from the database
  *
  * @since 2.2
- * @version $Id$
  */
 public abstract class StrLookup<V> {
 
@@ -42,6 +39,11 @@ public abstract class StrLookup<V> {
      * Lookup that always returns null.
      */
     private static final StrLookup<String> NONE_LOOKUP = new MapStrLookup<String>(null);
+
+    /**
+     * Lookup based on system properties.
+     */
+    private static final StrLookup<String> SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
 
     //-----------------------------------------------------------------------
     /**
@@ -51,29 +53,6 @@ public abstract class StrLookup<V> {
      */
     public static StrLookup<?> noneLookup() {
         return NONE_LOOKUP;
-    }
-
-    /**
-     * Creates a copy of the given properties instance.
-     * 
-     * @param input the Properties instance to copy.
-     * @return a copy of {@code input}.
-     */
-    private static Properties copyProperties(Properties input) {
-        if (input == null) {
-            return null;
-        }
-
-        Properties output = new Properties();
-        @SuppressWarnings("unchecked") // Property names are Strings.
-        Enumeration<String> propertyNames = (Enumeration<String>) input.propertyNames();
-
-        while (propertyNames.hasMoreElements()) {
-            String propertyName = propertyNames.nextElement();
-            output.setProperty(propertyName, input.getProperty(propertyName));
-        }
-
-        return output;
     }
 
     /**
@@ -88,19 +67,7 @@ public abstract class StrLookup<V> {
      * @return a lookup using system properties, not null
      */
     public static StrLookup<String> systemPropertiesLookup() {
-        Properties systemProperties = null;
-
-        try {
-            systemProperties = System.getProperties();
-        } catch (final SecurityException ex) {
-            // Squelched.  All lookup(String) will return null.
-        }
-
-        Properties properties = copyProperties(systemProperties);
-        @SuppressWarnings("unchecked") // System property keys and values are always Strings
-        final Map<String, String> propertiesMap = (Map) properties;
-
-        return new MapStrLookup<String>(propertiesMap);
+        return SYSTEM_PROPERTIES_LOOKUP;
     }
 
     /**
@@ -187,6 +154,27 @@ public abstract class StrLookup<V> {
                 return null;
             }
             return obj.toString();
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Lookup implementation based on system properties.
+     */
+    private static class SystemPropertiesStrLookup extends StrLookup<String> {
+        /**
+         * {@inheritDoc} This implementation directly accesses system properties.
+         */
+        @Override
+        public String lookup(String key) {
+            if (key.length() > 0) {
+                try {
+                    return System.getProperty(key);
+                } catch (SecurityException scex) {
+                    // Squelched. All lookup(String) will return null.
+                }
+            }
+            return null;
         }
     }
 }

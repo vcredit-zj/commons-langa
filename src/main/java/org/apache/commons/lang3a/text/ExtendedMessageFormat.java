@@ -16,14 +16,13 @@
  */
 package org.apache.commons.lang3a.text;
 
+import org.apache.commons.lang3a.ObjectUtils;
+import org.apache.commons.lang3a.Validate;
+
 import java.text.Format;
 import java.text.MessageFormat;
 import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Extends <code>java.text.MessageFormat</code> to allow pluggable/additional formatting
@@ -61,7 +60,6 @@ import java.util.Map;
  * </ul>
  *
  * @since 2.4
- * @version $Id$
  */
 public class ExtendedMessageFormat extends MessageFormat {
     private static final long serialVersionUID = -2362048321261811743L;
@@ -174,8 +172,8 @@ public class ExtendedMessageFormat extends MessageFormat {
                 }
                 foundFormats.add(format);
                 foundDescriptions.add(format == null ? null : formatDescription);
-                org.apache.commons.lang3a.Validate.isTrue(foundFormats.size() == fmtCount);
-                org.apache.commons.lang3a.Validate.isTrue(foundDescriptions.size() == fmtCount);
+                Validate.isTrue(foundFormats.size() == fmtCount);
+                Validate.isTrue(foundDescriptions.size() == fmtCount);
                 if (c[pos.getIndex()] != END_FE) {
                     throw new IllegalArgumentException(
                             "Unreadable format element at position " + start);
@@ -266,14 +264,14 @@ public class ExtendedMessageFormat extends MessageFormat {
         if (!super.equals(obj)) {
             return false;
         }
-        if (org.apache.commons.lang3a.ObjectUtils.notEqual(getClass(), obj.getClass())) {
+        if (ObjectUtils.notEqual(getClass(), obj.getClass())) {
           return false;
         }
         final ExtendedMessageFormat rhs = (ExtendedMessageFormat)obj;
-        if (org.apache.commons.lang3a.ObjectUtils.notEqual(toPattern, rhs.toPattern)) {
+        if (ObjectUtils.notEqual(toPattern, rhs.toPattern)) {
             return false;
         }
-        if (org.apache.commons.lang3a.ObjectUtils.notEqual(registry, rhs.registry)) {
+        if (ObjectUtils.notEqual(registry, rhs.registry)) {
             return false;
         }
         return true;
@@ -286,8 +284,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = HASH_SEED * result + org.apache.commons.lang3a.ObjectUtils.hashCode(registry);
-        result = HASH_SEED * result + org.apache.commons.lang3a.ObjectUtils.hashCode(toPattern);
+        result = HASH_SEED * result + ObjectUtils.hashCode(registry);
+        result = HASH_SEED * result + ObjectUtils.hashCode(toPattern);
         return result;
     }
 

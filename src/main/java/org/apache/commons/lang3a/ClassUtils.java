@@ -16,19 +16,11 @@
  */
 package org.apache.commons.lang3a;
 
+import org.apache.commons.lang3a.mutable.MutableObject;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3a.mutable.MutableObject;
+import java.util.*;
 
 /**
  * <p>Operates on classes without using reflection.</p>
@@ -42,7 +34,6 @@ import org.apache.commons.lang3a.mutable.MutableObject;
  * {@code [I}. </p>
  *
  * @since 2.0
- * @version $Id$
  */
 public class ClassUtils {
     /**
@@ -74,6 +65,22 @@ public class ClassUtils {
     public static final String INNER_CLASS_SEPARATOR = String.valueOf(INNER_CLASS_SEPARATOR_CHAR);
 
     /**
+     * Maps names of primitives to their corresponding primitive {@code Class}es.
+     */
+    private static final Map<String, Class<?>> namePrimitiveMap = new HashMap<String, Class<?>>();
+    static {
+         namePrimitiveMap.put("boolean", Boolean.TYPE);
+         namePrimitiveMap.put("byte", Byte.TYPE);
+         namePrimitiveMap.put("char", Character.TYPE);
+         namePrimitiveMap.put("short", Short.TYPE);
+         namePrimitiveMap.put("int", Integer.TYPE);
+         namePrimitiveMap.put("long", Long.TYPE);
+         namePrimitiveMap.put("double", Double.TYPE);
+         namePrimitiveMap.put("float", Float.TYPE);
+         namePrimitiveMap.put("void", Void.TYPE);
+    }
+
+    /**
      * Maps primitive {@code Class}es to their corresponding wrapper {@code Class}.
      */
     private static final Map<Class<?>, Class<?>> primitiveWrapperMap = new HashMap<Class<?>, Class<?>>();
@@ -94,8 +101,9 @@ public class ClassUtils {
      */
     private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<Class<?>, Class<?>>();
     static {
-        for (final Class<?> primitiveClass : primitiveWrapperMap.keySet()) {
-            final Class<?> wrapperClass = primitiveWrapperMap.get(primitiveClass);
+        for (final Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperMap.entrySet()) {
+            final Class<?> primitiveClass = entry.getKey();
+            final Class<?> wrapperClass = entry.getValue();
             if (!primitiveClass.equals(wrapperClass)) {
                 wrapperPrimitiveMap.put(wrapperClass, primitiveClass);
             }
@@ -125,7 +133,6 @@ public class ClassUtils {
         m.put("byte", "B");
         m.put("double", "D");
         m.put("char", "C");
-        m.put("void", "V");
         final Map<String, String> r = new HashMap<String, String>();
         for (final Map.Entry<String, String> e : m.entrySet()) {
             r.put(e.getValue(), e.getKey());
@@ -174,7 +181,7 @@ public class ClassUtils {
      */
     public static String getShortClassName(final Class<?> cls) {
         if (cls == null) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return getShortClassName(cls.getName());
     }
@@ -192,8 +199,8 @@ public class ClassUtils {
      * @return the class name of the class without the package name or an empty string
      */
     public static String getShortClassName(String className) {
-        if (org.apache.commons.lang3a.StringUtils.isEmpty(className)) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+        if (StringUtils.isEmpty(className)) {
+            return StringUtils.EMPTY;
         }
 
         final StringBuilder arrayPrefix = new StringBuilder();
@@ -234,7 +241,7 @@ public class ClassUtils {
      */
     public static String getSimpleName(final Class<?> cls) {
         if (cls == null) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return cls.getSimpleName();
     }
@@ -279,7 +286,7 @@ public class ClassUtils {
      */
     public static String getPackageName(final Class<?> cls) {
         if (cls == null) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return getPackageName(cls.getName());
     }
@@ -294,8 +301,8 @@ public class ClassUtils {
      * @return the package name or an empty string
      */
     public static String getPackageName(String className) {
-        if (org.apache.commons.lang3a.StringUtils.isEmpty(className)) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+        if (StringUtils.isEmpty(className)) {
+            return StringUtils.EMPTY;
         }
 
         // Strip array encoding
@@ -309,7 +316,7 @@ public class ClassUtils {
 
         final int i = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);
         if (i == -1) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return className.substring(0, i);
     }
@@ -328,7 +335,7 @@ public class ClassUtils {
      */
     public static String getAbbreviatedName(final Class<?> cls, int len) {
       if (cls == null) {
-        return org.apache.commons.lang3a.StringUtils.EMPTY;
+        return StringUtils.EMPTY;
       }
       return getAbbreviatedName(cls.getName(), len);
     }
@@ -363,11 +370,11 @@ public class ClassUtils {
         throw new IllegalArgumentException("len must be > 0");
       }
       if (className == null) {
-        return org.apache.commons.lang3a.StringUtils.EMPTY;
+        return StringUtils.EMPTY;
       }
 
       int availableSpace = len;
-      int packageLevels = org.apache.commons.lang3a.StringUtils.countMatches(className, '.');
+      int packageLevels = StringUtils.countMatches(className, '.');
       String[] output = new String[packageLevels + 1];
       int endIndex = className.length() - 1;
       for (int level = packageLevels; level >= 0; level--) {
@@ -392,7 +399,7 @@ public class ClassUtils {
         endIndex = startIndex - 1;
       }
 
-      return org.apache.commons.lang3a.StringUtils.join(output, '.');
+      return StringUtils.join(output, '.');
     }
 
     // Superclasses/Superinterfaces
@@ -556,7 +563,7 @@ public class ClassUtils {
      * @return {@code true} if assignment possible
      */
     public static boolean isAssignable(final Class<?>[] classArray, final Class<?>... toClassArray) {
-        return isAssignable(classArray, toClassArray, SystemUtils.isJavaVersionAtLeast(org.apache.commons.lang3a.JavaVersion.JAVA_1_5));
+        return isAssignable(classArray, toClassArray, SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_1_5));
     }
 
     /**
@@ -592,14 +599,14 @@ public class ClassUtils {
      * @return {@code true} if assignment possible
      */
     public static boolean isAssignable(Class<?>[] classArray, Class<?>[] toClassArray, final boolean autoboxing) {
-        if (org.apache.commons.lang3a.ArrayUtils.isSameLength(classArray, toClassArray) == false) {
+        if (ArrayUtils.isSameLength(classArray, toClassArray) == false) {
             return false;
         }
         if (classArray == null) {
-            classArray = org.apache.commons.lang3a.ArrayUtils.EMPTY_CLASS_ARRAY;
+            classArray = ArrayUtils.EMPTY_CLASS_ARRAY;
         }
         if (toClassArray == null) {
-            toClassArray = org.apache.commons.lang3a.ArrayUtils.EMPTY_CLASS_ARRAY;
+            toClassArray = ArrayUtils.EMPTY_CLASS_ARRAY;
         }
         for (int i = 0; i < classArray.length; i++) {
             if (isAssignable(classArray[i], toClassArray[i], autoboxing) == false) {
@@ -672,7 +679,7 @@ public class ClassUtils {
      * @return {@code true} if assignment possible
      */
     public static boolean isAssignable(final Class<?> cls, final Class<?> toClass) {
-        return isAssignable(cls, toClass, SystemUtils.isJavaVersionAtLeast(org.apache.commons.lang3a.JavaVersion.JAVA_1_5));
+        return isAssignable(cls, toClass, SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_1_5));
     }
 
     /**
@@ -902,9 +909,8 @@ public class ClassUtils {
             final ClassLoader classLoader, final String className, final boolean initialize) throws ClassNotFoundException {
         try {
             Class<?> clazz;
-            if (abbreviationMap.containsKey(className)) {
-                final String clsName = "[" + abbreviationMap.get(className);
-                clazz = Class.forName(clsName, initialize, classLoader).getComponentType();
+            if (namePrimitiveMap.containsKey(className)) {
+                clazz = namePrimitiveMap.get(className);
             } else {
                 clazz = Class.forName(toCanonicalName(className), initialize, classLoader);
             }
@@ -1027,7 +1033,7 @@ public class ClassUtils {
         }
 
         throw new NoSuchMethodException("Can't find a public method for " +
-                methodName + " " + org.apache.commons.lang3a.ArrayUtils.toString(parameterTypes));
+                methodName + " " + ArrayUtils.toString(parameterTypes));
     }
 
     // ----------------------------------------------------------------------
@@ -1038,7 +1044,7 @@ public class ClassUtils {
      * @return the converted name
      */
     private static String toCanonicalName(String className) {
-        className = org.apache.commons.lang3a.StringUtils.deleteWhitespace(className);
+        className = StringUtils.deleteWhitespace(className);
         if (className == null) {
             throw new NullPointerException("className must not be null.");
         } else if (className.endsWith("[]")) {
@@ -1072,7 +1078,7 @@ public class ClassUtils {
         if (array == null) {
             return null;
         } else if (array.length == 0) {
-            return org.apache.commons.lang3a.ArrayUtils.EMPTY_CLASS_ARRAY;
+            return ArrayUtils.EMPTY_CLASS_ARRAY;
         }
         final Class<?>[] classes = new Class[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -1107,7 +1113,7 @@ public class ClassUtils {
      */
     public static String getShortCanonicalName(final Class<?> cls) {
         if (cls == null) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return getShortCanonicalName(cls.getName());
     }
@@ -1151,7 +1157,7 @@ public class ClassUtils {
      */
     public static String getPackageCanonicalName(final Class<?> cls) {
         if (cls == null) {
-            return org.apache.commons.lang3a.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         return getPackageCanonicalName(cls.getName());
     }
@@ -1187,7 +1193,7 @@ public class ClassUtils {
      * @since 2.4
      */
     private static String getCanonicalName(String className) {
-        className = org.apache.commons.lang3a.StringUtils.deleteWhitespace(className);
+        className = StringUtils.deleteWhitespace(className);
         if (className == null) {
             return null;
         }

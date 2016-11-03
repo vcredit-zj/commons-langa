@@ -17,6 +17,9 @@
 
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.ClassUtils;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -24,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.lang3a.ArrayUtils;
 
 /**
  * <p>
@@ -78,6 +79,10 @@ import org.apache.commons.lang3a.ArrayUtils;
  * }
  * </pre>
  * <p>
+ * Alternatively the {@link ToStringExclude} annotation can be used to exclude fields from being incorporated in the
+ * result.
+ * </p>
+ * <p>
  * The exact format of the <code>toString</code> is determined by the {@link ToStringStyle} passed into the constructor.
  * </p>
  *
@@ -87,9 +92,8 @@ import org.apache.commons.lang3a.ArrayUtils;
  * </p>
  *
  * @since 2.0
- * @version $Id$
  */
-public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder.ToStringBuilder {
+public class ReflectionToStringBuilder extends ToStringBuilder {
 
     /**
      * <p>
@@ -112,6 +116,8 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @return the String result
      * @throws IllegalArgumentException
      *             if the Object is <code>null</code>
+     *
+     * @see ToStringExclude
      */
     public static String toString(final Object object) {
         return toString(object, null, false, false, null);
@@ -144,6 +150,8 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @return the String result
      * @throws IllegalArgumentException
      *             if the Object or <code>ToStringStyle</code> is <code>null</code>
+     *
+     * @see ToStringExclude
      */
     public static String toString(final Object object, final ToStringStyle style) {
         return toString(object, style, false, false, null);
@@ -182,6 +190,8 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @return the String result
      * @throws IllegalArgumentException
      *             if the Object is <code>null</code>
+     *
+     * @see ToStringExclude
      */
     public static String toString(final Object object, final ToStringStyle style, final boolean outputTransients) {
         return toString(object, style, outputTransients, false, null);
@@ -223,10 +233,12 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @param outputTransients
      *            whether to include transient fields
      * @param outputStatics
-     *            whether to include transient fields
+     *            whether to include static fields
      * @return the String result
      * @throws IllegalArgumentException
      *             if the Object is <code>null</code>
+     *
+     * @see ToStringExclude
      * @since 2.1
      */
     public static String toString(final Object object, final ToStringStyle style, final boolean outputTransients, final boolean outputStatics) {
@@ -278,6 +290,8 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @return the String result
      * @throws IllegalArgumentException
      *             if the Object is <code>null</code>
+     *
+     * @see ToStringExclude
      * @since 2.1
      */
     public static <T> String toString(
@@ -349,6 +363,13 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
         return new ReflectionToStringBuilder(object).setExcludeFieldNames(excludeFieldNames).toString();
     }
 
+    private static Object checkNotNull(final Object obj) {
+        if (obj == null) {
+            throw new IllegalArgumentException("The Object passed in should not be null.");
+        }
+        return obj;
+    }
+
     /**
      * Whether or not to append static fields.
      */
@@ -386,7 +407,7 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      *             if the Object passed in is <code>null</code>
      */
     public ReflectionToStringBuilder(final Object object) {
-        super(object);
+        super(checkNotNull(object));
     }
 
     /**
@@ -406,7 +427,7 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      *             if the Object passed in is <code>null</code>
      */
     public ReflectionToStringBuilder(final Object object, final ToStringStyle style) {
-        super(object, style);
+        super(checkNotNull(object), style);
     }
 
     /**
@@ -432,7 +453,7 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      *             if the Object passed in is <code>null</code>
      */
     public ReflectionToStringBuilder(final Object object, final ToStringStyle style, final StringBuffer buffer) {
-        super(object, style, buffer);
+        super(checkNotNull(object), style, buffer);
     }
 
     /**
@@ -457,7 +478,7 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
     public <T> ReflectionToStringBuilder(
             final T object, final ToStringStyle style, final StringBuffer buffer,
             final Class<? super T> reflectUpToClass, final boolean outputTransients, final boolean outputStatics) {
-        super(object, style, buffer);
+        super(checkNotNull(object), style, buffer);
         this.setUpToClass(reflectUpToClass);
         this.setAppendTransients(outputTransients);
         this.setAppendStatics(outputStatics);
@@ -476,7 +497,7 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
      * @return Whether or not to append the given <code>Field</code>.
      */
     protected boolean accept(final Field field) {
-        if (field.getName().indexOf(org.apache.commons.lang3a.ClassUtils.INNER_CLASS_SEPARATOR_CHAR) != -1) {
+        if (field.getName().indexOf(ClassUtils.INNER_CLASS_SEPARATOR_CHAR) != -1) {
             // Reject field from inner class.
             return false;
         }
@@ -491,6 +512,9 @@ public class ReflectionToStringBuilder extends org.apache.commons.lang3a.builder
         if (this.excludeFieldNames != null
             && Arrays.binarySearch(this.excludeFieldNames, field.getName()) >= 0) {
             // Reject fields from the getExcludeFieldNames list.
+            return false;
+        }
+        if(field.isAnnotationPresent(ToStringExclude.class)) {
             return false;
         }
         return true;

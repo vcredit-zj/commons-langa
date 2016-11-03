@@ -16,20 +16,16 @@
  */
 package org.apache.commons.lang3a.concurrent;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 /**
  * <p>
- * A specialized {@link org.apache.commons.lang3a.concurrent.BackgroundInitializer} implementation that can deal with
+ * A specialized {@link BackgroundInitializer} implementation that can deal with
  * multiple background initialization tasks.
  * </p>
  * <p>
- * This class has a similar purpose as {@link org.apache.commons.lang3a.concurrent.BackgroundInitializer}. However,
+ * This class has a similar purpose as {@link BackgroundInitializer}. However,
  * it is not limited to a single background initialization task. Rather it
  * manages an arbitrary number of {@code BackgroundInitializer} objects,
  * executes them, and waits until they are completely initialized. This is
@@ -48,10 +44,10 @@ import java.util.concurrent.ExecutorService;
  * {@code ExecutorService}. Alternatively {@code MultiBackgroundInitializer} can
  * create a temporary {@code ExecutorService} and delete it after initialization
  * is complete.</li>
- * <li>Create specialized {@link org.apache.commons.lang3a.concurrent.BackgroundInitializer} objects for the
+ * <li>Create specialized {@link BackgroundInitializer} objects for the
  * initialization tasks to be performed and add them to the {@code
  * MultiBackgroundInitializer} using the
- * {@link #addInitializer(String, org.apache.commons.lang3a.concurrent.BackgroundInitializer)} method.</li>
+ * {@link #addInitializer(String, BackgroundInitializer)} method.</li>
  * <li>After all initializers have been added, call the {@link #start()} method.
  * </li>
  * <li>When access to the result objects produced by the {@code
@@ -92,14 +88,13 @@ import java.util.concurrent.ExecutorService;
  * </p>
  *
  * @since 3.0
- * @version $Id$
  */
 public class MultiBackgroundInitializer
         extends
-        org.apache.commons.lang3a.concurrent.BackgroundInitializer<MultiBackgroundInitializer.MultiBackgroundInitializerResults> {
+        BackgroundInitializer<MultiBackgroundInitializer.MultiBackgroundInitializerResults> {
     /** A map with the child initializers. */
-    private final Map<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>> childInitializers =
-        new HashMap<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>>();
+    private final Map<String, BackgroundInitializer<?>> childInitializers =
+        new HashMap<String, BackgroundInitializer<?>>();
 
     /**
      * Creates a new instance of {@code MultiBackgroundInitializer}.
@@ -131,7 +126,7 @@ public class MultiBackgroundInitializer
      * @throws IllegalArgumentException if a required parameter is missing
      * @throws IllegalStateException if {@code start()} has already been called
      */
-    public void addInitializer(final String name, final org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> init) {
+    public void addInitializer(final String name, final BackgroundInitializer<?> init) {
         if (name == null) {
             throw new IllegalArgumentException(
                     "Name of child initializer must not be null!");
@@ -164,7 +159,7 @@ public class MultiBackgroundInitializer
     protected int getTaskCount() {
         int result = 1;
 
-        for (final org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> bi : childInitializers.values()) {
+        for (final BackgroundInitializer<?> bi : childInitializers.values()) {
             result += bi.getTaskCount();
         }
 
@@ -183,16 +178,16 @@ public class MultiBackgroundInitializer
      */
     @Override
     protected MultiBackgroundInitializerResults initialize() throws Exception {
-        Map<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>> inits;
+        Map<String, BackgroundInitializer<?>> inits;
         synchronized (this) {
             // create a snapshot to operate on
-            inits = new HashMap<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>>(
+            inits = new HashMap<String, BackgroundInitializer<?>>(
                     childInitializers);
         }
 
         // start the child initializers
         final ExecutorService exec = getActiveExecutor();
-        for (final org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> bi : inits.values()) {
+        for (final BackgroundInitializer<?> bi : inits.values()) {
             if (bi.getExternalExecutor() == null) {
                 // share the executor service if necessary
                 bi.setExternalExecutor(exec);
@@ -203,7 +198,7 @@ public class MultiBackgroundInitializer
         // collect the results
         final Map<String, Object> results = new HashMap<String, Object>();
         final Map<String, ConcurrentException> excepts = new HashMap<String, ConcurrentException>();
-        for (final Map.Entry<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>> e : inits.entrySet()) {
+        for (final Map.Entry<String, BackgroundInitializer<?>> e : inits.entrySet()) {
             try {
                 results.put(e.getKey(), e.getValue().get());
             } catch (final ConcurrentException cex) {
@@ -219,14 +214,14 @@ public class MultiBackgroundInitializer
      * performed by {@code MultiBackgroundInitializer}. Objects of this inner
      * class are returned by {@link MultiBackgroundInitializer#initialize()}.
      * They allow access to all result objects produced by the
-     * {@link org.apache.commons.lang3a.concurrent.BackgroundInitializer} objects managed by the owning instance. It
+     * {@link BackgroundInitializer} objects managed by the owning instance. It
      * is also possible to retrieve status information about single
-     * {@link org.apache.commons.lang3a.concurrent.BackgroundInitializer}s, i.e. whether they completed normally or
+     * {@link BackgroundInitializer}s, i.e. whether they completed normally or
      * caused an exception.
      */
     public static class MultiBackgroundInitializerResults {
         /** A map with the child initializers. */
-        private final Map<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>> initializers;
+        private final Map<String, BackgroundInitializer<?>> initializers;
 
         /** A map with the result objects. */
         private final Map<String, Object> resultObjects;
@@ -244,7 +239,7 @@ public class MultiBackgroundInitializer
          * @param excepts the exceptions
          */
         private MultiBackgroundInitializerResults(
-                final Map<String, org.apache.commons.lang3a.concurrent.BackgroundInitializer<?>> inits,
+                final Map<String, BackgroundInitializer<?>> inits,
                 final Map<String, Object> results,
                 final Map<String, ConcurrentException> excepts) {
             initializers = inits;
@@ -260,7 +255,7 @@ public class MultiBackgroundInitializer
          * @return the {@code BackgroundInitializer} with this name
          * @throws NoSuchElementException if the name cannot be resolved
          */
-        public org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> getInitializer(final String name) {
+        public BackgroundInitializer<?> getInitializer(final String name) {
             return checkName(name);
         }
 
@@ -339,8 +334,8 @@ public class MultiBackgroundInitializer
          * @return the initializer with this name
          * @throws NoSuchElementException if the name is unknown
          */
-        private org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> checkName(final String name) {
-            final org.apache.commons.lang3a.concurrent.BackgroundInitializer<?> init = initializers.get(name);
+        private BackgroundInitializer<?> checkName(final String name) {
+            final BackgroundInitializer<?> init = initializers.get(name);
             if (init == null) {
                 throw new NoSuchElementException(
                         "No child initializer with name " + name);

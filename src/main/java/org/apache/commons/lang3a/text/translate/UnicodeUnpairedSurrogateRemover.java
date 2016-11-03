@@ -21,8 +21,6 @@ import java.io.Writer;
 
 /**
  * Helper subclass to CharSequenceTranslator to remove unpaired surrogates.
- * 
- * @version $Id$
  */
 public class UnicodeUnpairedSurrogateRemover extends CodePointTranslator {
     /**

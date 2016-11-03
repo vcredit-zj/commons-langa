@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ArrayUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +58,6 @@ import java.util.List;
  * </p>
  * 
  * @since 3.3
- * @version $Id$
  * @see Diffable
  * @see Diff
  * @see DiffResult
@@ -220,12 +221,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Boolean[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Boolean[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -303,12 +304,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Byte[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Byte[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -387,12 +388,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Character[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Character[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -471,12 +472,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Double[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Double[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -555,12 +556,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Float[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Float[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -639,12 +640,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Integer[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Integer[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -723,12 +724,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Long[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Long[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -807,12 +808,12 @@ public class DiffBuilder implements Builder<DiffResult> {
 
                 @Override
                 public Short[] getLeft() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(lhs);
+                    return ArrayUtils.toObject(lhs);
                 }
 
                 @Override
                 public Short[] getRight() {
-                    return org.apache.commons.lang3a.ArrayUtils.toObject(rhs);
+                    return ArrayUtils.toObject(rhs);
                 }
             });
         }
@@ -831,10 +832,14 @@ public class DiffBuilder implements Builder<DiffResult> {
      * @param rhs
      *            the right hand {@code Object}
      * @return this
+     * @throws IllegalArgumentException
+     *             if field name is {@code null}
      */
     public DiffBuilder append(final String fieldName, final Object lhs,
             final Object rhs) {
-
+        if (fieldName == null) {
+            throw new IllegalArgumentException("Field name cannot be null");
+        }
         if (objectsTriviallyEqual) {
             return this;
         }
@@ -913,9 +918,14 @@ public class DiffBuilder implements Builder<DiffResult> {
      * @param rhs
      *            the right hand {@code Object[]}
      * @return this
+     * @throws IllegalArgumentException
+     *             if field name is {@code null}
      */
     public DiffBuilder append(final String fieldName, final Object[] lhs,
             final Object[] rhs) {
+        if (fieldName == null) {
+            throw new IllegalArgumentException("Field name cannot be null");
+        }
         if (objectsTriviallyEqual) {
             return this;
         }
@@ -934,6 +944,62 @@ public class DiffBuilder implements Builder<DiffResult> {
                     return rhs;
                 }
             });
+        }
+
+        return this;
+    }
+
+    /**
+     * <p>
+     * Append diffs from another {@code DiffResult}.
+     * </p>
+     * 
+     * <p>
+     * This method is useful if you want to compare properties which are
+     * themselves Diffable and would like to know which specific part of
+     * it is different.
+     * </p>
+     * 
+     * <pre>
+     * public class Person implements Diffable&lt;Person&gt; {
+     *   String name;
+     *   Address address; // implements Diffable&lt;Address&gt;
+     *   
+     *   ...
+     *   
+     *   public DiffResult diff(Person obj) {
+     *     return new DiffBuilder(this, obj, ToStringStyle.SHORT_PREFIX_STYLE)
+     *       .append("name", this.name, obj.name)
+     *       .append("address", this.address.diff(obj.address))
+     *       .build();
+     *   }
+     * }
+     * </pre>
+     * 
+     * @param fieldName
+     *            the field name
+     * @param diffResult
+     *            the {@code DiffResult} to append
+     * @return this
+     * @throws IllegalArgumentException
+     *             if field name is {@code null}
+     * @since 3.5
+     */
+    public DiffBuilder append(final String fieldName,
+            final DiffResult diffResult) {
+        if (fieldName == null) {
+            throw new IllegalArgumentException("Field name cannot be null");
+        }
+        if (diffResult == null) {
+            throw new IllegalArgumentException("Diff result cannot be null");
+        }
+        if (objectsTriviallyEqual) {
+            return this;
+        }
+
+        for (Diff<?> diff : diffResult.getDiffs()) {
+            append(fieldName + "." + diff.getFieldName(),
+                   diff.getLeft(), diff.getRight());
         }
 
         return this;

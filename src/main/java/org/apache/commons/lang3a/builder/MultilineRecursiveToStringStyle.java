@@ -17,12 +17,13 @@
 
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ClassUtils;
 import org.apache.commons.lang3a.SystemUtils;
 
 /**
  * <p>Works with {@link ToStringBuilder} to create a "deep" <code>toString</code>.
- * But instead a single line like the {@link org.apache.commons.lang3a.builder.RecursiveToStringStyle} this creates a multiline String
- * similar to the {@link org.apache.commons.lang3a.builder.ToStringStyle#MULTI_LINE_STYLE}.</p>
+ * But instead a single line like the {@link RecursiveToStringStyle} this creates a multiline String 
+ * similar to the {@link ToStringStyle#MULTI_LINE_STYLE}.</p>
  * 
  * <p>To use this class write code as follows:</p>
  *
@@ -60,9 +61,8 @@ import org.apache.commons.lang3a.SystemUtils;
  * </p>
  * 
  * @since 3.4
- * @version $Id$
  */
-class MultilineRecursiveToStringStyle extends org.apache.commons.lang3a.builder.RecursiveToStringStyle {
+public class MultilineRecursiveToStringStyle extends RecursiveToStringStyle {
 
     /**
      * Required for serialization support.
@@ -114,11 +114,11 @@ class MultilineRecursiveToStringStyle extends org.apache.commons.lang3a.builder.
 
     @Override
     public void appendDetail(StringBuffer buffer, String fieldName, Object value) {
-        if (!org.apache.commons.lang3a.ClassUtils.isPrimitiveWrapper(value.getClass()) && !String.class.equals(value.getClass())
+        if (!ClassUtils.isPrimitiveWrapper(value.getClass()) && !String.class.equals(value.getClass())
                 && accept(value.getClass())) {
             spaces += indent;
             resetIndent();
-            buffer.append(org.apache.commons.lang3a.builder.ReflectionToStringBuilder.toString(value, this));
+            buffer.append(ReflectionToStringBuilder.toString(value, this));
             spaces -= indent;
             resetIndent();
         } else {

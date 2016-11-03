@@ -17,6 +17,8 @@
 
 package org.apache.commons.lang3a.event;
 
+import org.apache.commons.lang3a.reflect.MethodUtils;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,7 +31,6 @@ import java.util.Set;
  * Provides some useful event-based utility methods.
  *
  * @since 3.0
- * @version $Id$
  */
 public class EventUtils {
 
@@ -45,7 +46,7 @@ public class EventUtils {
      */
     public static <L> void addEventListener(final Object eventSource, final Class<L> listenerType, final L listener) {
         try {
-            org.apache.commons.lang3a.reflect.MethodUtils.invokeMethod(eventSource, "add" + listenerType.getSimpleName(), listener);
+            MethodUtils.invokeMethod(eventSource, "add" + listenerType.getSimpleName(), listener);
         } catch (final NoSuchMethodException e) {
             throw new IllegalArgumentException("Class " + eventSource.getClass().getName()
                     + " does not have a public add" + listenerType.getSimpleName()
@@ -108,9 +109,9 @@ public class EventUtils {
         public Object invoke(final Object proxy, final Method method, final Object[] parameters) throws Throwable {
             if (eventTypes.isEmpty() || eventTypes.contains(method.getName())) {
                 if (hasMatchingParametersMethod(method)) {
-                    return org.apache.commons.lang3a.reflect.MethodUtils.invokeMethod(target, methodName, parameters);
+                    return MethodUtils.invokeMethod(target, methodName, parameters);
                 }
-                return org.apache.commons.lang3a.reflect.MethodUtils.invokeMethod(target, methodName);
+                return MethodUtils.invokeMethod(target, methodName);
             }
             return null;
         }
@@ -122,7 +123,7 @@ public class EventUtils {
          * @return a flag whether the parameters could be matched
          */
         private boolean hasMatchingParametersMethod(final Method method) {
-            return org.apache.commons.lang3a.reflect.MethodUtils.getAccessibleMethod(target.getClass(), methodName, method.getParameterTypes()) != null;
+            return MethodUtils.getAccessibleMethod(target.getClass(), methodName, method.getParameterTypes()) != null;
         }
     }
 }

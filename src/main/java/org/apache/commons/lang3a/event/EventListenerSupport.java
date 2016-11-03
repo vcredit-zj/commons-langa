@@ -17,11 +17,9 @@
 
 package org.apache.commons.lang3a.event;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import org.apache.commons.lang3a.Validate;
+
+import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -29,8 +27,6 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.apache.commons.lang3a.Validate;
 
 /**
  * <p>An EventListenerSupport object can be used to manage a list of event
@@ -65,7 +61,6 @@ import org.apache.commons.lang3a.Validate;
  * @param <L> the type of event listener that is supported by this proxy.
  *
  * @since 3.0
- * @version $Id$
  */
 public class EventListenerSupport<L> implements Serializable {
 
@@ -180,8 +175,27 @@ public class EventListenerSupport<L> implements Serializable {
      *         <code>null</code>.
      */
     public void addListener(final L listener) {
+        addListener(listener, true);
+    }
+
+    /**
+     * Registers an event listener.  Will not add a pre-existing listener
+     * object to the list if <code>allowDuplicate</code> is false.
+     *
+     * @param listener the event listener (may not be <code>null</code>).
+     * @param allowDuplicate the flag for determining if duplicate listener
+     * objects are allowed to be registered.
+     *
+     * @throws NullPointerException if <code>listener</code> is <code>null</code>.
+     * @since 3.5
+     */
+    public void addListener(final L listener, boolean allowDuplicate) {
         Validate.notNull(listener, "Listener object cannot be null.");
-        listeners.add(listener);
+        if (allowDuplicate) {
+            listeners.add(listener);
+        } else if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
     }
 
     /**

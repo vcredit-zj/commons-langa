@@ -16,10 +16,10 @@
  */
 package org.apache.commons.lang3a.exception;
 
+import org.apache.commons.lang3a.tuple.Pair;
+
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.lang3a.tuple.Pair;
 
 /**
  * Allows the storage and retrieval of contextual information based on label-value
@@ -30,7 +30,7 @@ import org.apache.commons.lang3a.tuple.Pair;
  * </p>
  * 
  * @see ContextedException
- * @see org.apache.commons.lang3a.exception.ContextedRuntimeException
+ * @see ContextedRuntimeException
  * @since 3.0
  */
 public interface ExceptionContext {

@@ -16,12 +16,13 @@
  */
 package org.apache.commons.lang3a;
 
+import org.apache.commons.lang3a.builder.ToStringBuilder;
+import org.apache.commons.lang3a.builder.ToStringStyle;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-
-import org.apache.commons.lang3a.builder.ToStringBuilder;
 
 /**
  * <p>Helper methods for working with {@link Annotation} instances.</p>
@@ -40,14 +41,13 @@ import org.apache.commons.lang3a.builder.ToStringBuilder;
  * <p>#ThreadSafe#</p>
  *
  * @since 3.0
- * @version $Id$
  */
 public class AnnotationUtils {
 
     /**
      * A style that prints annotations as recommended.
      */
-    private static final org.apache.commons.lang3a.builder.ToStringStyle TO_STRING_STYLE = new org.apache.commons.lang3a.builder.ToStringStyle() {
+    private static final ToStringStyle TO_STRING_STYLE = new ToStringStyle() {
         /** Serialization version */
         private static final long serialVersionUID = 1L;
 
@@ -79,7 +79,7 @@ public class AnnotationUtils {
                     break;
                 }
             }
-            return new StringBuilder(annotationType == null ? "" : annotationType.getName())
+            return new StringBuilder(annotationType == null ? StringUtils.EMPTY : annotationType.getName())
                     .insert(0, '@').toString();
         }
 

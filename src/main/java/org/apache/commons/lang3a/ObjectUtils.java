@@ -16,19 +16,16 @@
  */
 package org.apache.commons.lang3a;
 
+import org.apache.commons.lang3a.exception.CloneFailedException;
+import org.apache.commons.lang3a.mutable.MutableInt;
+import org.apache.commons.lang3a.text.StrBuilder;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
-
-import org.apache.commons.lang3a.exception.CloneFailedException;
-import org.apache.commons.lang3a.mutable.MutableInt;
+import java.util.*;
 
 /**
  * <p>Operations on {@code Object}.</p>
@@ -39,7 +36,6 @@ import org.apache.commons.lang3a.mutable.MutableInt;
  *
  * <p>#ThreadSafe#</p>
  * @since 1.0
- * @version $Id$
  */
 //@Immutable
 public class ObjectUtils {
@@ -128,6 +124,72 @@ public class ObjectUtils {
         return null;
     }
 
+    /**
+     * Checks if any value in the given array is not {@code null}.
+     *
+     * <p>
+     * If all the values are {@code null} or the array is {@code null}
+     * or empty then {@code false} is returned. Otherwise {@code true} is returned.
+     * </p>
+     *
+     * <pre>
+     * ObjectUtils.anyNotNull(*)                = true
+     * ObjectUtils.anyNotNull(*, null)          = true
+     * ObjectUtils.anyNotNull(null, *)          = true
+     * ObjectUtils.anyNotNull(null, null, *, *) = true
+     * ObjectUtils.anyNotNull(null)             = false
+     * ObjectUtils.anyNotNull(null, null)       = false
+     * </pre>
+     *
+     * @param values  the values to test, may be {@code null} or empty
+     * @return {@code true} if there is at least one non-null value in the array,
+     * {@code false} if all values in the array are {@code null}s.
+     * If the array is {@code null} or empty {@code false} is also returned.
+     * @since 3.5
+     */
+    public static boolean anyNotNull(final Object... values) {
+        return firstNonNull(values) != null;
+    }
+
+    /**
+     * Checks if all values in the array are not {@code nulls}.
+     *
+     * <p>
+     * If any value is {@code null} or the array is {@code null} then
+     * {@code false} is returned. If all elements in array are not
+     * {@code null} or the array is empty (contains no elements) {@code true}
+     * is returned.
+     * </p>
+     *
+     * <pre>
+     * ObjectUtils.allNotNull(*)             = true
+     * ObjectUtils.allNotNull(*, *)          = true
+     * ObjectUtils.allNotNull(null)          = false
+     * ObjectUtils.allNotNull(null, null)    = false
+     * ObjectUtils.allNotNull(null, *)       = false
+     * ObjectUtils.allNotNull(*, null)       = false
+     * ObjectUtils.allNotNull(*, *, null, *) = false
+     * </pre>
+     *
+     * @param values  the values to test, may be {@code null} or empty
+     * @return {@code false} if there is at least one {@code null} value in the array or the array is {@code null},
+     * {@code true} if all values in the array are not {@code null}s or array contains no elements.
+     * @since 3.5
+     */
+    public static boolean allNotNull(final Object... values) {
+        if (values == null) {
+            return false;
+        }
+
+        for (final Object val : values) {
+            if (val == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Null-safe equals/hashCode
     //-----------------------------------------------------------------------
     /**
@@ -208,7 +270,7 @@ public class ObjectUtils {
 
     /**
      * <p>Gets the hash code for multiple objects.</p>
-     * 
+     *
      * <p>This allows a hash code to be rapidly calculated for a number of objects.
      * The hash code for a single object is the <em>not</em> same as {@link #hashCode(Object)}.
      * The hash code for multiple objects is the same as that calculated by an
@@ -307,7 +369,7 @@ public class ObjectUtils {
      * @param object  the object to create a toString for
      * @since 3.2
      */
-    public static void identityToString(final org.apache.commons.lang3a.text.StrBuilder builder, final Object object) {
+    public static void identityToString(final StrBuilder builder, final Object object) {
         if (object == null) {
             throw new NullPointerException("Cannot get the toString of a null identity");
         }
@@ -388,7 +450,7 @@ public class ObjectUtils {
      */
     @Deprecated
     public static String toString(final Object obj) {
-        return obj == null ? "" : obj.toString();
+        return obj == null ? StringUtils.EMPTY : obj.toString();
     }
 
     /**
@@ -555,7 +617,7 @@ public class ObjectUtils {
     //-----------------------------------------------------------------------
     /**
      * Find the most frequently occurring item.
-     * 
+     *
      * @param <T> type of values processed by this method
      * @param items to check
      * @return most populous T, {@code null} if non-unique or no items supplied

@@ -24,14 +24,13 @@ package org.apache.commons.lang3a.concurrent;
  * <p>
  * This class is an analogon of the {@link ConcurrentException} exception class.
  * However, it is a runtime exception and thus does not need explicit catch
- * clauses. Some methods of {@link org.apache.commons.lang3a.concurrent.ConcurrentUtils} throw {@code
+ * clauses. Some methods of {@link ConcurrentUtils} throw {@code
  * ConcurrentRuntimeException} exceptions rather than
  * {@link ConcurrentException} exceptions. They can be used by client code that
  * does not want to be bothered with checked exceptions.
  * </p>
  *
  * @since 3.0
- * @version $Id$
  */
 public class ConcurrentRuntimeException extends RuntimeException {
     /**
@@ -55,7 +54,7 @@ public class ConcurrentRuntimeException extends RuntimeException {
      * @throws IllegalArgumentException if the cause is not a checked exception
      */
     public ConcurrentRuntimeException(final Throwable cause) {
-        super(org.apache.commons.lang3a.concurrent.ConcurrentUtils.checkedException(cause));
+        super(ConcurrentUtils.checkedException(cause));
     }
 
     /**
@@ -67,6 +66,6 @@ public class ConcurrentRuntimeException extends RuntimeException {
      * @throws IllegalArgumentException if the cause is not a checked exception
      */
     public ConcurrentRuntimeException(final String msg, final Throwable cause) {
-        super(msg, org.apache.commons.lang3a.concurrent.ConcurrentUtils.checkedException(cause));
+        super(msg, ConcurrentUtils.checkedException(cause));
     }
 }

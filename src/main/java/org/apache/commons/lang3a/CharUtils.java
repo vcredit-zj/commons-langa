@@ -25,7 +25,6 @@ package org.apache.commons.lang3a;
  * 
  * <p>#ThreadSafe#</p>
  * @since 2.1
- * @version $Id$
  */
 public class CharUtils {
     

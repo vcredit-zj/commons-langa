@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a;
 
+import org.apache.commons.lang3a.math.NumberUtils;
+
 /**
  * <p>Operations on boolean primitives and Boolean objects.</p>
  *
@@ -25,7 +27,6 @@ package org.apache.commons.lang3a;
  *
  * <p>#ThreadSafe#</p>
  * @since 2.0
- * @version $Id$
  */
 public class BooleanUtils {
 
@@ -404,7 +405,7 @@ public class BooleanUtils {
      * @return one if {@code true}, zero if {@code false}
      */
     public static Integer toIntegerObject(final boolean bool) {
-        return bool ? org.apache.commons.lang3a.math.NumberUtils.INTEGER_ONE : org.apache.commons.lang3a.math.NumberUtils.INTEGER_ZERO;
+        return bool ? NumberUtils.INTEGER_ONE : NumberUtils.INTEGER_ZERO;
     }
 
     /**
@@ -425,7 +426,7 @@ public class BooleanUtils {
         if (bool == null) {
             return null;
         }
-        return bool.booleanValue() ? org.apache.commons.lang3a.math.NumberUtils.INTEGER_ONE : org.apache.commons.lang3a.math.NumberUtils.INTEGER_ZERO;
+        return bool.booleanValue() ? NumberUtils.INTEGER_ONE : NumberUtils.INTEGER_ZERO;
     }
 
     /**
@@ -1097,11 +1098,7 @@ public class BooleanUtils {
         if (x == y) {
             return 0;
         }
-        if (x) {
-            return 1;
-        } else {
-            return -1;
-        }
+        return x ? 1 : -1;
     }
 
 }

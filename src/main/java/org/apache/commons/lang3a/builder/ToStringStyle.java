@@ -16,14 +16,16 @@
  */
 package org.apache.commons.lang3a.builder;
 
+import org.apache.commons.lang3a.ClassUtils;
+import org.apache.commons.lang3a.ObjectUtils;
+import org.apache.commons.lang3a.StringUtils;
+import org.apache.commons.lang3a.SystemUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 import java.util.WeakHashMap;
-
-import org.apache.commons.lang3a.ObjectUtils;
-import org.apache.commons.lang3a.SystemUtils;
 
 /**
  * <p>Controls <code>String</code> formatting for {@link ToStringBuilder}.
@@ -60,7 +62,6 @@ import org.apache.commons.lang3a.SystemUtils;
  * </pre>
  *
  * @since 1.0
- * @version $Id$
  */
 public abstract class ToStringStyle implements Serializable {
 
@@ -1617,7 +1618,7 @@ public abstract class ToStringStyle implements Serializable {
      * @return the short name
      */
     protected String getShortClassName(final Class<?> cls) {
-        return org.apache.commons.lang3a.ClassUtils.getShortClassName(cls);
+        return ClassUtils.getShortClassName(cls);
     }
 
     // Setters and getters for the customizable parts of the style
@@ -1768,7 +1769,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setArrayStart(String arrayStart) {
         if (arrayStart == null) {
-            arrayStart = "";
+            arrayStart = StringUtils.EMPTY;
         }
         this.arrayStart = arrayStart;
     }
@@ -1794,7 +1795,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setArrayEnd(String arrayEnd) {
         if (arrayEnd == null) {
-            arrayEnd = "";
+            arrayEnd = StringUtils.EMPTY;
         }
         this.arrayEnd = arrayEnd;
     }
@@ -1820,7 +1821,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setArraySeparator(String arraySeparator) {
         if (arraySeparator == null) {
-            arraySeparator = "";
+            arraySeparator = StringUtils.EMPTY;
         }
         this.arraySeparator = arraySeparator;
     }
@@ -1846,7 +1847,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setContentStart(String contentStart) {
         if (contentStart == null) {
-            contentStart = "";
+            contentStart = StringUtils.EMPTY;
         }
         this.contentStart = contentStart;
     }
@@ -1872,7 +1873,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setContentEnd(String contentEnd) {
         if (contentEnd == null) {
-            contentEnd = "";
+            contentEnd = StringUtils.EMPTY;
         }
         this.contentEnd = contentEnd;
     }
@@ -1898,7 +1899,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setFieldNameValueSeparator(String fieldNameValueSeparator) {
         if (fieldNameValueSeparator == null) {
-            fieldNameValueSeparator = "";
+            fieldNameValueSeparator = StringUtils.EMPTY;
         }
         this.fieldNameValueSeparator = fieldNameValueSeparator;
     }
@@ -1924,7 +1925,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setFieldSeparator(String fieldSeparator) {
         if (fieldSeparator == null) {
-            fieldSeparator = "";
+            fieldSeparator = StringUtils.EMPTY;
         }
         this.fieldSeparator = fieldSeparator;
     }
@@ -1998,7 +1999,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setNullText(String nullText) {
         if (nullText == null) {
-            nullText = "";
+            nullText = StringUtils.EMPTY;
         }
         this.nullText = nullText;
     }
@@ -2030,7 +2031,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setSizeStartText(String sizeStartText) {
         if (sizeStartText == null) {
-            sizeStartText = "";
+            sizeStartText = StringUtils.EMPTY;
         }
         this.sizeStartText = sizeStartText;
     }
@@ -2062,7 +2063,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setSizeEndText(String sizeEndText) {
         if (sizeEndText == null) {
-            sizeEndText = "";
+            sizeEndText = StringUtils.EMPTY;
         }
         this.sizeEndText = sizeEndText;
     }
@@ -2094,7 +2095,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setSummaryObjectStartText(String summaryObjectStartText) {
         if (summaryObjectStartText == null) {
-            summaryObjectStartText = "";
+            summaryObjectStartText = StringUtils.EMPTY;
         }
         this.summaryObjectStartText = summaryObjectStartText;
     }
@@ -2126,7 +2127,7 @@ public abstract class ToStringStyle implements Serializable {
      */
     protected void setSummaryObjectEndText(String summaryObjectEndText) {
         if (summaryObjectEndText == null) {
-            summaryObjectEndText = "";
+            summaryObjectEndText = StringUtils.EMPTY;
         }
         this.summaryObjectEndText = summaryObjectEndText;
     }
@@ -2259,8 +2260,8 @@ public abstract class ToStringStyle implements Serializable {
             this.setUseClassName(false);
             this.setUseIdentityHashCode(false);
             this.setUseFieldNames(false);
-            this.setContentStart("");
-            this.setContentEnd("");
+            this.setContentStart(StringUtils.EMPTY);
+            this.setContentEnd(StringUtils.EMPTY);
         }
 
         /**
@@ -2355,6 +2356,9 @@ public abstract class ToStringStyle implements Serializable {
      * This is an inner class rather than using
      * <code>StandardToStringStyle</code> to ensure its immutability.
      * </p>
+     *
+     * @since 3.4
+     * @see <a href="http://json.org">json.org</a>
      */
     private static final class JsonToStringStyle extends ToStringStyle {
 
@@ -2559,21 +2563,45 @@ public abstract class ToStringStyle implements Serializable {
         }
 
         @Override
+        protected void appendDetail(StringBuffer buffer, String fieldName, char value) {
+            appendValueAsString(buffer, String.valueOf(value));
+        }
+
+        @Override
         protected void appendDetail(StringBuffer buffer, String fieldName, Object value) {
 
             if (value == null) {
-
                 appendNullText(buffer, fieldName);
                 return;
             }
 
-            if (value.getClass() == String.class) {
-
-                appendValueAsString(buffer, (String)value);
+            if (value instanceof String || value instanceof Character) {
+                appendValueAsString(buffer, value.toString());
                 return;
             }
 
-            buffer.append(value);
+            if (value instanceof Number || value instanceof Boolean) {
+                buffer.append(value);
+                return;
+            }
+
+            final String valueAsString = value.toString();
+            if (isJsonObject(valueAsString) || isJsonArray(valueAsString)) {
+                buffer.append(value);
+                return;
+            }
+
+            appendDetail(buffer, fieldName, valueAsString);
+        }
+
+        private boolean isJsonArray(String valueAsString) {
+            return valueAsString.startsWith(getArrayStart())
+                    && valueAsString.startsWith(getArrayEnd());
+        }
+
+        private boolean isJsonObject(String valueAsString) {
+            return valueAsString.startsWith(getContentStart())
+                    && valueAsString.endsWith(getContentEnd());
         }
 
         /**

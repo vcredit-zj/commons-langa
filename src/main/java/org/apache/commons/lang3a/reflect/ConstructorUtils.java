@@ -16,11 +16,13 @@
  */
 package org.apache.commons.lang3a.reflect;
 
+import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.ClassUtils;
+import org.apache.commons.lang3a.Validate;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-
-import org.apache.commons.lang3a.ArrayUtils;
 
 /**
  * <p> Utility reflection methods focused on constructors, modeled after
@@ -40,7 +42,6 @@ import org.apache.commons.lang3a.ArrayUtils;
  * fails then a warning will be logged and the method may fail.</p>
  *
  * @since 2.5
- * @version $Id$
  */
 public class ConstructorUtils {
 
@@ -79,14 +80,14 @@ public class ConstructorUtils {
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
             InstantiationException {
         args = ArrayUtils.nullToEmpty(args);
-        final Class<?> parameterTypes[] = org.apache.commons.lang3a.ClassUtils.toClass(args);
+        final Class<?> parameterTypes[] = ClassUtils.toClass(args);
         return invokeConstructor(cls, args, parameterTypes);
     }
 
     /**
      * <p>Returns a new instance of the specified class choosing the right constructor
      * from the list of parameter types.</p>
-     * 
+     *
      * <p>This locates and calls a constructor.
      * The constructor signature must match the parameter types by assignment compatibility.</p>
      *
@@ -112,6 +113,10 @@ public class ConstructorUtils {
         if (ctor == null) {
             throw new NoSuchMethodException(
                 "No such accessible constructor on object: " + cls.getName());
+        }
+        if (ctor.isVarArgs()) {
+            Class<?>[] methodParameterTypes = ctor.getParameterTypes();
+            args = MethodUtils.getVarArgs(args, methodParameterTypes);
         }
         return ctor.newInstance(args);
     }
@@ -139,7 +144,7 @@ public class ConstructorUtils {
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
             InstantiationException {
         args = ArrayUtils.nullToEmpty(args);
-        final Class<?> parameterTypes[] = org.apache.commons.lang3a.ClassUtils.toClass(args);
+        final Class<?> parameterTypes[] = ClassUtils.toClass(args);
         return invokeExactConstructor(cls, args, parameterTypes);
     }
 
@@ -179,7 +184,7 @@ public class ConstructorUtils {
     //-----------------------------------------------------------------------
     /**
      * <p>Finds a constructor given a class and signature, checking accessibility.</p>
-     * 
+     *
      * <p>This finds the constructor and ensures that it is accessible.
      * The constructor signature must match the parameter types exactly.</p>
      *
@@ -193,7 +198,7 @@ public class ConstructorUtils {
      */
     public static <T> Constructor<T> getAccessibleConstructor(final Class<T> cls,
             final Class<?>... parameterTypes) {
-        org.apache.commons.lang3a.Validate.notNull(cls, "class cannot be null");
+        Validate.notNull(cls, "class cannot be null");
         try {
             return getAccessibleConstructor(cls.getConstructor(parameterTypes));
         } catch (final NoSuchMethodException e) {
@@ -203,7 +208,7 @@ public class ConstructorUtils {
 
     /**
      * <p>Checks if the specified constructor is accessible.</p>
-     * 
+     *
      * <p>This simply ensures that the constructor is accessible.</p>
      *
      * @param <T> the constructor type
@@ -213,7 +218,7 @@ public class ConstructorUtils {
      * @throws NullPointerException if {@code ctor} is {@code null}
      */
     public static <T> Constructor<T> getAccessibleConstructor(final Constructor<T> ctor) {
-        org.apache.commons.lang3a.Validate.notNull(ctor, "constructor cannot be null");
+        Validate.notNull(ctor, "constructor cannot be null");
         return MemberUtils.isAccessible(ctor)
                 && isAccessible(ctor.getDeclaringClass()) ? ctor : null;
     }
@@ -238,7 +243,7 @@ public class ConstructorUtils {
      */
     public static <T> Constructor<T> getMatchingAccessibleConstructor(final Class<T> cls,
             final Class<?>... parameterTypes) {
-        org.apache.commons.lang3a.Validate.notNull(cls, "class cannot be null");
+        Validate.notNull(cls, "class cannot be null");
         // see if we can find the constructor directly
         // most of the time this works and it's much faster
         try {
@@ -257,14 +262,12 @@ public class ConstructorUtils {
         // return best match:
         for (Constructor<?> ctor : ctors) {
             // compare parameters
-            if (org.apache.commons.lang3a.ClassUtils.isAssignable(parameterTypes, ctor.getParameterTypes(), true)) {
+            if (MemberUtils.isMatchingConstructor(ctor, parameterTypes)) {
                 // get accessible version of constructor
                 ctor = getAccessibleConstructor(ctor);
                 if (ctor != null) {
                     MemberUtils.setAccessibleWorkaround(ctor);
-                    if (result == null
-                            || MemberUtils.compareParameterTypes(ctor.getParameterTypes(), result
-                                    .getParameterTypes(), parameterTypes) < 0) {
+                    if (result == null || MemberUtils.compareConstructorFit(ctor, result, parameterTypes) < 0) {
                         // temporary variable for annotation, see comment above (1)
                         @SuppressWarnings("unchecked")
                         final

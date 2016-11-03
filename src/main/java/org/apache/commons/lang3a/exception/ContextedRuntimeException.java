@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang3a.exception;
 
+import org.apache.commons.lang3a.tuple.Pair;
+
 import java.util.List;
 import java.util.Set;
 
@@ -67,7 +69,7 @@ import java.util.Set;
  * The output in a printStacktrace() (which often is written to a log) would look something like the following:
  * </p>
  * <pre>
- * ContextedRuntimeException: java.lang.Exception: Error posting account transaction
+ * org.apache.commons.lang3a.exception.ContextedRuntimeException: java.lang.Exception: Error posting account transaction
  *  Exception Context:
  *  [1:Account Number=null]
  *  [2:Amount Posted=100.00]
@@ -75,7 +77,7 @@ import java.util.Set;
  *  [4:Transaction Id=94ef1d15-d443-46c4-822b-637f26244899]
  *
  *  ---------------------------------
- *  at org.apache.commons.lang3.exception.ContextedRuntimeExceptionTest.testAddValue(ContextedExceptionTest.java:88)
+ *  at org.apache.commons.lang3a.exception.ContextedRuntimeExceptionTest.testAddValue(ContextedExceptionTest.java:88)
  *  ..... (rest of trace)
  * </pre>
  * 
@@ -96,7 +98,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
      */
     public ContextedRuntimeException() {
         super();
-        exceptionContext = new org.apache.commons.lang3a.exception.DefaultExceptionContext();
+        exceptionContext = new DefaultExceptionContext();
     }
 
     /**
@@ -108,7 +110,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
      */
     public ContextedRuntimeException(final String message) {
         super(message);
-        exceptionContext = new org.apache.commons.lang3a.exception.DefaultExceptionContext();
+        exceptionContext = new DefaultExceptionContext();
     }
 
     /**
@@ -120,7 +122,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
      */
     public ContextedRuntimeException(final Throwable cause) {
         super(cause);
-        exceptionContext = new org.apache.commons.lang3a.exception.DefaultExceptionContext();
+        exceptionContext = new DefaultExceptionContext();
     }
 
     /**
@@ -133,7 +135,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
      */
     public ContextedRuntimeException(final String message, final Throwable cause) {
         super(message, cause);
-        exceptionContext = new org.apache.commons.lang3a.exception.DefaultExceptionContext();
+        exceptionContext = new DefaultExceptionContext();
     }
 
     /**
@@ -146,7 +148,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
     public ContextedRuntimeException(final String message, final Throwable cause, ExceptionContext context) {
         super(message, cause);
         if (context == null) {
-            context = new org.apache.commons.lang3a.exception.DefaultExceptionContext();
+            context = new DefaultExceptionContext();
         }
         exceptionContext = context;
     }
@@ -210,7 +212,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
      * {@inheritDoc}
      */
     @Override
-    public List<org.apache.commons.lang3a.tuple.Pair<String, Object>> getContextEntries() {
+    public List<Pair<String, Object>> getContextEntries() {
         return this.exceptionContext.getContextEntries();
     }
 
@@ -235,7 +237,7 @@ public class ContextedRuntimeException extends RuntimeException implements Excep
 
     /**
      * Provides the message explaining the exception without the contextual data.
-     * 
+     *
      * @see Throwable#getMessage()
      * @return the message
      * @since 3.0.1

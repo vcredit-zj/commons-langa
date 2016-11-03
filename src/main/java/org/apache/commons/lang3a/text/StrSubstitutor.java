@@ -16,14 +16,9 @@
  */
 package org.apache.commons.lang3a.text;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang3a.StringUtils;
+
+import java.util.*;
 
 /**
  * Substitutes variables within a string by values.
@@ -65,9 +60,9 @@ import org.apache.commons.lang3a.StringUtils;
  * The default value for a variable can be appended to the variable name after the variable
  * default value delimiter. The default value of the variable default value delimiter is ':-',
  * as in bash and other *nix shells, as those are arguably where the default ${} delimiter set originated.
- * The variable default value delimiter can be manually set by calling {@link #setValueDelimiterMatcher(org.apache.commons.lang3a.text.StrMatcher)},
+ * The variable default value delimiter can be manually set by calling {@link #setValueDelimiterMatcher(StrMatcher)},
  * {@link #setValueDelimiter(char)} or {@link #setValueDelimiter(String)}.
- * The following shows an example with varialbe default value settings:
+ * The following shows an example with variable default value settings:
  * <pre>
  * Map valuesMap = HashMap();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
@@ -119,7 +114,6 @@ import org.apache.commons.lang3a.StringUtils;
  * {@link #setEnableSubstitutionInVariables(boolean) enableSubstitutionInVariables}
  * property to <b>true</b>.
  *
- * @version $Id$
  * @since 2.2
  */
 public class StrSubstitutor {
@@ -131,16 +125,16 @@ public class StrSubstitutor {
     /**
      * Constant for the default variable prefix.
      */
-    public static final org.apache.commons.lang3a.text.StrMatcher DEFAULT_PREFIX = org.apache.commons.lang3a.text.StrMatcher.stringMatcher("${");
+    public static final StrMatcher DEFAULT_PREFIX = StrMatcher.stringMatcher("${");
     /**
      * Constant for the default variable suffix.
      */
-    public static final org.apache.commons.lang3a.text.StrMatcher DEFAULT_SUFFIX = org.apache.commons.lang3a.text.StrMatcher.stringMatcher("}");
+    public static final StrMatcher DEFAULT_SUFFIX = StrMatcher.stringMatcher("}");
     /**
      * Constant for the default value delimiter of a variable.
      * @since 3.2
      */
-    public static final org.apache.commons.lang3a.text.StrMatcher DEFAULT_VALUE_DELIMITER = org.apache.commons.lang3a.text.StrMatcher.stringMatcher(":-");
+    public static final StrMatcher DEFAULT_VALUE_DELIMITER = StrMatcher.stringMatcher(":-");
 
     /**
      * Stores the escape character.
@@ -149,23 +143,27 @@ public class StrSubstitutor {
     /**
      * Stores the variable prefix.
      */
-    private org.apache.commons.lang3a.text.StrMatcher prefixMatcher;
+    private StrMatcher prefixMatcher;
     /**
      * Stores the variable suffix.
      */
-    private org.apache.commons.lang3a.text.StrMatcher suffixMatcher;
+    private StrMatcher suffixMatcher;
     /**
      * Stores the default variable value delimiter
      */
-    private org.apache.commons.lang3a.text.StrMatcher valueDelimiterMatcher;
+    private StrMatcher valueDelimiterMatcher;
     /**
      * Variable resolution is delegated to an implementor of VariableResolver.
      */
-    private org.apache.commons.lang3a.text.StrLookup<?> variableResolver;
+    private StrLookup<?> variableResolver;
     /**
      * The flag whether substitution in variable names is enabled.
      */
     private boolean enableSubstitutionInVariables;
+    /**
+     * Whether escapes should be preserved.  Default is false;
+     */
+    private boolean preserveEscapes = false;
 
     //-----------------------------------------------------------------------
     /**
@@ -228,7 +226,7 @@ public class StrSubstitutor {
      * @return the result of the replace operation
      */
     public static String replaceSystemProperties(final Object source) {
-        return new StrSubstitutor(org.apache.commons.lang3a.text.StrLookup.systemPropertiesLookup()).replace(source);
+        return new StrSubstitutor(StrLookup.systemPropertiesLookup()).replace(source);
     }
 
     //-----------------------------------------------------------------------
@@ -237,7 +235,7 @@ public class StrSubstitutor {
      * and the escaping character.
      */
     public StrSubstitutor() {
-        this((org.apache.commons.lang3a.text.StrLookup<?>) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
+        this((StrLookup<?>) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
     /**
@@ -248,7 +246,7 @@ public class StrSubstitutor {
      * @param valueMap  the map with the variables' values, may be null
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap) {
-        this(org.apache.commons.lang3a.text.StrLookup.mapLookup(valueMap), DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
+        this(StrLookup.mapLookup(valueMap), DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
     /**
@@ -261,7 +259,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix) {
-        this(org.apache.commons.lang3a.text.StrLookup.mapLookup(valueMap), prefix, suffix, DEFAULT_ESCAPE);
+        this(StrLookup.mapLookup(valueMap), prefix, suffix, DEFAULT_ESCAPE);
     }
 
     /**
@@ -276,7 +274,7 @@ public class StrSubstitutor {
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix,
                               final char escape) {
-        this(org.apache.commons.lang3a.text.StrLookup.mapLookup(valueMap), prefix, suffix, escape);
+        this(StrLookup.mapLookup(valueMap), prefix, suffix, escape);
     }
 
     /**
@@ -293,7 +291,7 @@ public class StrSubstitutor {
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix,
                               final char escape, final String valueDelimiter) {
-        this(org.apache.commons.lang3a.text.StrLookup.mapLookup(valueMap), prefix, suffix, escape, valueDelimiter);
+        this(StrLookup.mapLookup(valueMap), prefix, suffix, escape, valueDelimiter);
     }
 
     /**
@@ -301,7 +299,7 @@ public class StrSubstitutor {
      *
      * @param variableResolver  the variable resolver, may be null
      */
-    public StrSubstitutor(final org.apache.commons.lang3a.text.StrLookup<?> variableResolver) {
+    public StrSubstitutor(final StrLookup<?> variableResolver) {
         this(variableResolver, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
@@ -314,7 +312,7 @@ public class StrSubstitutor {
      * @param escape  the escape character
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
-    public StrSubstitutor(final org.apache.commons.lang3a.text.StrLookup<?> variableResolver, final String prefix, final String suffix,
+    public StrSubstitutor(final StrLookup<?> variableResolver, final String prefix, final String suffix,
                           final char escape) {
         this.setVariableResolver(variableResolver);
         this.setVariablePrefix(prefix);
@@ -334,7 +332,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      * @since 3.2
      */
-    public StrSubstitutor(final org.apache.commons.lang3a.text.StrLookup<?> variableResolver, final String prefix, final String suffix,
+    public StrSubstitutor(final StrLookup<?> variableResolver, final String prefix, final String suffix,
                           final char escape, final String valueDelimiter) {
         this.setVariableResolver(variableResolver);
         this.setVariablePrefix(prefix);
@@ -353,7 +351,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
     public StrSubstitutor(
-            final org.apache.commons.lang3a.text.StrLookup<?> variableResolver, final org.apache.commons.lang3a.text.StrMatcher prefixMatcher, final org.apache.commons.lang3a.text.StrMatcher suffixMatcher,
+            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
             final char escape) {
         this(variableResolver, prefixMatcher, suffixMatcher, escape, DEFAULT_VALUE_DELIMITER);
     }
@@ -370,8 +368,8 @@ public class StrSubstitutor {
      * @since 3.2
      */
     public StrSubstitutor(
-            final org.apache.commons.lang3a.text.StrLookup<?> variableResolver, final org.apache.commons.lang3a.text.StrMatcher prefixMatcher, final org.apache.commons.lang3a.text.StrMatcher suffixMatcher,
-            final char escape, final org.apache.commons.lang3a.text.StrMatcher valueDelimiterMatcher) {
+            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
+            final char escape, final StrMatcher valueDelimiterMatcher) {
         this.setVariableResolver(variableResolver);
         this.setVariablePrefixMatcher(prefixMatcher);
         this.setVariableSuffixMatcher(suffixMatcher);
@@ -748,10 +746,10 @@ public class StrSubstitutor {
      *  represents a boolean flag as to whether any change occurred.
      */
     private int substitute(final StrBuilder buf, final int offset, final int length, List<String> priorVariables) {
-        final org.apache.commons.lang3a.text.StrMatcher pfxMatcher = getVariablePrefixMatcher();
-        final org.apache.commons.lang3a.text.StrMatcher suffMatcher = getVariableSuffixMatcher();
+        final StrMatcher pfxMatcher = getVariablePrefixMatcher();
+        final StrMatcher suffMatcher = getVariableSuffixMatcher();
         final char escape = getEscapeChar();
-        final org.apache.commons.lang3a.text.StrMatcher valueDelimMatcher = getValueDelimiterMatcher();
+        final StrMatcher valueDelimMatcher = getValueDelimiterMatcher();
         final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();
 
         final boolean top = priorVariables == null;
@@ -769,6 +767,10 @@ public class StrSubstitutor {
                 // found variable start marker
                 if (pos > offset && chars[pos - 1] == escape) {
                     // escaped
+                    if (preserveEscapes) {
+                        pos++;
+                        continue;
+                    }
                     buf.deleteCharAt(pos - 1);
                     chars = buf.buffer; // in case buffer was altered
                     lengthChange--;
@@ -915,7 +917,7 @@ public class StrSubstitutor {
      * @return the variable's value or <b>null</b> if the variable is unknown
      */
     protected String resolveVariable(final String variableName, final StrBuilder buf, final int startPos, final int endPos) {
-        final org.apache.commons.lang3a.text.StrLookup<?> resolver = getVariableResolver();
+        final StrLookup<?> resolver = getVariableResolver();
         if (resolver == null) {
             return null;
         }
@@ -955,7 +957,7 @@ public class StrSubstitutor {
      *
      * @return the prefix matcher in use
      */
-    public org.apache.commons.lang3a.text.StrMatcher getVariablePrefixMatcher() {
+    public StrMatcher getVariablePrefixMatcher() {
         return prefixMatcher;
     }
 
@@ -970,7 +972,7 @@ public class StrSubstitutor {
      * @return this, to enable chaining
      * @throws IllegalArgumentException if the prefix matcher is null
      */
-    public StrSubstitutor setVariablePrefixMatcher(final org.apache.commons.lang3a.text.StrMatcher prefixMatcher) {
+    public StrSubstitutor setVariablePrefixMatcher(final StrMatcher prefixMatcher) {
         if (prefixMatcher == null) {
             throw new IllegalArgumentException("Variable prefix matcher must not be null!");
         }
@@ -989,7 +991,7 @@ public class StrSubstitutor {
      * @return this, to enable chaining
      */
     public StrSubstitutor setVariablePrefix(final char prefix) {
-        return setVariablePrefixMatcher(org.apache.commons.lang3a.text.StrMatcher.charMatcher(prefix));
+        return setVariablePrefixMatcher(StrMatcher.charMatcher(prefix));
     }
 
     /**
@@ -1006,7 +1008,7 @@ public class StrSubstitutor {
        if (prefix == null) {
             throw new IllegalArgumentException("Variable prefix must not be null!");
         }
-        return setVariablePrefixMatcher(org.apache.commons.lang3a.text.StrMatcher.stringMatcher(prefix));
+        return setVariablePrefixMatcher(StrMatcher.stringMatcher(prefix));
     }
 
     // Suffix
@@ -1020,7 +1022,7 @@ public class StrSubstitutor {
      *
      * @return the suffix matcher in use
      */
-    public org.apache.commons.lang3a.text.StrMatcher getVariableSuffixMatcher() {
+    public StrMatcher getVariableSuffixMatcher() {
         return suffixMatcher;
     }
 
@@ -1035,7 +1037,7 @@ public class StrSubstitutor {
      * @return this, to enable chaining
      * @throws IllegalArgumentException if the suffix matcher is null
      */
-    public StrSubstitutor setVariableSuffixMatcher(final org.apache.commons.lang3a.text.StrMatcher suffixMatcher) {
+    public StrSubstitutor setVariableSuffixMatcher(final StrMatcher suffixMatcher) {
         if (suffixMatcher == null) {
             throw new IllegalArgumentException("Variable suffix matcher must not be null!");
         }
@@ -1054,7 +1056,7 @@ public class StrSubstitutor {
      * @return this, to enable chaining
      */
     public StrSubstitutor setVariableSuffix(final char suffix) {
-        return setVariableSuffixMatcher(org.apache.commons.lang3a.text.StrMatcher.charMatcher(suffix));
+        return setVariableSuffixMatcher(StrMatcher.charMatcher(suffix));
     }
 
     /**
@@ -1071,7 +1073,7 @@ public class StrSubstitutor {
        if (suffix == null) {
             throw new IllegalArgumentException("Variable suffix must not be null!");
         }
-        return setVariableSuffixMatcher(org.apache.commons.lang3a.text.StrMatcher.stringMatcher(suffix));
+        return setVariableSuffixMatcher(StrMatcher.stringMatcher(suffix));
     }
 
     // Variable Default Value Delimiter
@@ -1088,7 +1090,7 @@ public class StrSubstitutor {
      * @return the variable default value delimiter matcher in use, may be null
      * @since 3.2
      */
-    public org.apache.commons.lang3a.text.StrMatcher getValueDelimiterMatcher() {
+    public StrMatcher getValueDelimiterMatcher() {
         return valueDelimiterMatcher;
     }
 
@@ -1106,7 +1108,7 @@ public class StrSubstitutor {
      * @return this, to enable chaining
      * @since 3.2
      */
-    public StrSubstitutor setValueDelimiterMatcher(final org.apache.commons.lang3a.text.StrMatcher valueDelimiterMatcher) {
+    public StrSubstitutor setValueDelimiterMatcher(final StrMatcher valueDelimiterMatcher) {
         this.valueDelimiterMatcher = valueDelimiterMatcher;
         return this;
     }
@@ -1123,7 +1125,7 @@ public class StrSubstitutor {
      * @since 3.2
      */
     public StrSubstitutor setValueDelimiter(final char valueDelimiter) {
-        return setValueDelimiterMatcher(org.apache.commons.lang3a.text.StrMatcher.charMatcher(valueDelimiter));
+        return setValueDelimiterMatcher(StrMatcher.charMatcher(valueDelimiter));
     }
 
     /**
@@ -1145,7 +1147,7 @@ public class StrSubstitutor {
             setValueDelimiterMatcher(null);
             return this;
         }
-        return setValueDelimiterMatcher(org.apache.commons.lang3a.text.StrMatcher.stringMatcher(valueDelimiter));
+        return setValueDelimiterMatcher(StrMatcher.stringMatcher(valueDelimiter));
     }
 
     // Resolver
@@ -1155,7 +1157,7 @@ public class StrSubstitutor {
      *
      * @return the VariableResolver
      */
-    public org.apache.commons.lang3a.text.StrLookup<?> getVariableResolver() {
+    public StrLookup<?> getVariableResolver() {
         return this.variableResolver;
     }
 
@@ -1164,7 +1166,7 @@ public class StrSubstitutor {
      *
      * @param variableResolver  the VariableResolver
      */
-    public void setVariableResolver(final org.apache.commons.lang3a.text.StrLookup<?> variableResolver) {
+    public void setVariableResolver(final StrLookup<?> variableResolver) {
         this.variableResolver = variableResolver;
     }
 
@@ -1192,5 +1194,32 @@ public class StrSubstitutor {
     public void setEnableSubstitutionInVariables(
             final boolean enableSubstitutionInVariables) {
         this.enableSubstitutionInVariables = enableSubstitutionInVariables;
+    }
+
+    /**
+     * Returns the flag controlling whether escapes are preserved during
+     * substitution.
+     * 
+     * @return the preserve escape flag
+     * @since 3.5
+     */
+    public boolean isPreserveEscapes() {
+        return preserveEscapes;
+    }
+
+    /**
+     * Sets a flag controlling whether escapes are preserved during
+     * substitution.  If set to <b>true</b>, the escape character is retained
+     * during substitution (e.g. <code>$${this-is-escaped}</code> remains
+     * <code>$${this-is-escaped}</code>).  If set to <b>false</b>, the escape
+     * character is removed during substitution (e.g.
+     * <code>$${this-is-escaped}</code> becomes
+     * <code>${this-is-escaped}</code>).  The default value is <b>false</b>
+     * 
+     * @param preserveEscapes true if escapes are to be preserved
+     * @since 3.5
+     */
+    public void setPreserveEscapes(final boolean preserveEscapes) {
+        this.preserveEscapes = preserveEscapes;
     }
 }

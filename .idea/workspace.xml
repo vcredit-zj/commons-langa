@@ -1,7 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="10be4158-f87b-489b-ac2f-8b3a46622e85" name="Default" comment="" />
+    <list default="true" id="10be4158-f87b-489b-ac2f-8b3a46622e85" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ThreadUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/EqualsExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/HashCodeExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ToStringExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/AbstractCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/CircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/CircuitBreakingException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/EventCountCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ThresholdCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/AnnotationUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ArrayUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/BitField.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/BooleanUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharEncoding.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharRange.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharSequenceUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharSetUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/CharUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ClassPathUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ClassUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/Conversion.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/EnumUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/JavaVersion.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/LocaleUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/NotImplementedException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ObjectUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/RandomStringUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/RandomUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/Range.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/SerializationException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/SerializationUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/StringEscapeUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/StringUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/SystemUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ThreadUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/Validate.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/Builder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/CompareToBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/Diff.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/DiffBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/DiffResult.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/Diffable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/EqualsBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/EqualsExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/HashCodeBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/HashCodeExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/IDKey.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/MultilineRecursiveToStringStyle.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/RecursiveToStringStyle.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/ReflectionToStringBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/StandardToStringStyle.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/ToStringBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/ToStringExclude.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/ToStringStyle.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/builder/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/AbstractCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/AtomicInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/AtomicSafeInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/BackgroundInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/BasicThreadFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/CallableBackgroundInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/CircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/CircuitBreakingException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ConcurrentException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ConcurrentInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ConcurrentRuntimeException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ConcurrentUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ConstantInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/EventCountCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/LazyInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/MultiBackgroundInitializer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/ThresholdCircuitBreaker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/TimedSemaphore.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/concurrent/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/event/EventListenerSupport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/event/EventUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/event/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/CloneFailedException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/ContextedException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/ContextedRuntimeException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/DefaultExceptionContext.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/ExceptionContext.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/ExceptionUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/exception/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/math/Fraction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/math/IEEE754rUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/math/NumberUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/math/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/Mutable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableBoolean.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableByte.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableDouble.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableFloat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableInt.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableLong.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableObject.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/MutableShort.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/mutable/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/ConstructorUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/FieldUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/InheritanceUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/MemberUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/MethodUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/TypeLiteral.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/TypeUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/Typed.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/CompositeFormat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/ExtendedMessageFormat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/FormatFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/FormattableUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/StrBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/StrLookup.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/StrMatcher.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/StrSubstitutor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/StrTokenizer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/WordUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/AggregateTranslator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/CharSequenceTranslator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/CodePointTranslator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/EntityArrays.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/JavaUnicodeEscaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/LookupTranslator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/NumericEntityEscaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/NumericEntityUnescaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/OctalUnescaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/UnicodeEscaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/UnicodeUnescaper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/UnicodeUnpairedSurrogateRemover.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/text/translate/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/CalendarReflection.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/DateFormatUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/DateParser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/DatePrinter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/DateUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/DurationFormatUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/FastDateFormat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/FastDateParser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/FastDatePrinter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/FormatCache.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/StopWatch.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/time/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/ImmutablePair.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/ImmutableTriple.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/MutablePair.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/MutableTriple.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/Pair.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/Triple.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/tuple/package-info.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/CalendarReflection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/AnnotationUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/AnnotationUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ArrayUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ArrayUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/BitField.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/BitField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/BooleanUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/BooleanUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharEncoding.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharEncoding.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharRange.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharRange.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSequenceUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSequenceUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSet.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSetUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharSetUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/CharUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ClassPathUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ClassPathUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ClassUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ClassUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Conversion.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Conversion.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/EnumUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/EnumUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/JavaVersion.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/JavaVersion.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/LocaleUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/LocaleUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/NotImplementedException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/NotImplementedException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ObjectUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ObjectUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/RandomStringUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/RandomStringUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/RandomUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/RandomUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Range.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Range.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SerializationException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SerializationException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SerializationUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SerializationUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/StringEscapeUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/StringEscapeUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/StringUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/StringUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SystemUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/SystemUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Validate.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/Validate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Builder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Builder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/CompareToBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/CompareToBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Diff.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Diff.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/DiffBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/DiffBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/DiffResult.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/DiffResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Diffable.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/Diffable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/EqualsBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/EqualsBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/HashCodeBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/HashCodeBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/IDKey.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/IDKey.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/MultilineRecursiveToStringStyle.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/MultilineRecursiveToStringStyle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/RecursiveToStringStyle.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/RecursiveToStringStyle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ReflectionToStringBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ReflectionToStringBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/StandardToStringStyle.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/StandardToStringStyle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ToStringBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ToStringBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ToStringStyle.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/ToStringStyle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/builder/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/AtomicInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/AtomicInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/AtomicSafeInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/AtomicSafeInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/BackgroundInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/BackgroundInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/BasicThreadFactory.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/BasicThreadFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/CallableBackgroundInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/CallableBackgroundInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentRuntimeException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentRuntimeException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConcurrentUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConstantInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/ConstantInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/LazyInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/LazyInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/MultiBackgroundInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/MultiBackgroundInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/TimedSemaphore.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/TimedSemaphore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/concurrent/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/EventListenerSupport.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/EventListenerSupport.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/EventUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/EventUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/event/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ContextedException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ContextedException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ContextedRuntimeException.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ContextedRuntimeException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/DefaultExceptionContext.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/DefaultExceptionContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ExceptionContext.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ExceptionContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ExceptionUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ExceptionUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/Fraction.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/Fraction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/IEEE754rUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/IEEE754rUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/NumberUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/NumberUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/math/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/Mutable.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/Mutable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableBoolean.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableBoolean.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableByte.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableByte.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableDouble.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableDouble.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableFloat.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableFloat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableInt.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableInt.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableLong.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableLong.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableObject.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableShort.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/MutableShort.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/mutable/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/ConstructorUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/ConstructorUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/FieldUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/FieldUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/MemberUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/MemberUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/MethodUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/MethodUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/TypeLiteral.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/TypeLiteral.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/TypeUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/TypeUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/Typed.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/Typed.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/CompositeFormat.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/CompositeFormat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/ExtendedMessageFormat.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/ExtendedMessageFormat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/FormatFactory.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/FormatFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/FormattableUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/FormattableUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrLookup.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrLookup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrMatcher.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrMatcher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrSubstitutor.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrSubstitutor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrTokenizer.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/StrTokenizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/WordUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/WordUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/AggregateTranslator.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/AggregateTranslator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/CharSequenceTranslator.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/CharSequenceTranslator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/CodePointTranslator.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/CodePointTranslator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/EntityArrays.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/EntityArrays.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/JavaUnicodeEscaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/JavaUnicodeEscaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/LookupTranslator.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/LookupTranslator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/NumericEntityEscaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/NumericEntityEscaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/NumericEntityUnescaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/NumericEntityUnescaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/OctalUnescaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/OctalUnescaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeEscaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeEscaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeUnescaper.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeUnescaper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeUnpairedSurrogateRemover.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/UnicodeUnpairedSurrogateRemover.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/text/translate/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateFormatUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateFormatUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateParser.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DatePrinter.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DatePrinter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DateUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DurationFormatUtils.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DurationFormatUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDateFormat.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDateFormat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDateParser.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDateParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDatePrinter.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDatePrinter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FormatCache.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FormatCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/StopWatch.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/StopWatch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/package-info.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/ImmutablePair.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/ImmutablePair.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/ImmutableTriple.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/ImmutableTriple.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/MutablePair.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/MutablePair.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/MutableTriple.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/MutableTriple.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/Pair.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/Pair.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/Triple.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/Triple.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/package-info.java" afterPath="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/tuple/package-info.java" />
+    </list>
     <ignored path="library.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -24,22 +311,21 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="library" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
@@ -308,6 +594,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/AnnotationUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/MethodUtils.java" />
       </list>
     </option>
   </component>
@@ -319,10 +607,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="84" />
-    <option name="y" value="20" />
-    <option name="width" value="1186" />
-    <option name="height" value="984" />
+    <option name="x" value="66" />
+    <option name="y" value="-8" />
+    <option name="width" value="1222" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -350,43 +638,21 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
+        <subPane />
       </pane>
+      <pane id="Scratches" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\library\src\main\java\org\apache\commons\lang3a" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -627,6 +893,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED,SHOW_INTERFACES" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -641,34 +910,34 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="84" y="20" width="1186" height="984" extended-state="0" />
+    <frame x="66" y="-8" width="1222" height="1040" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914287" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24957265" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3370044" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2512909" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24956971" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -691,7 +960,7 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -699,10 +968,101 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+        <state relative-caret-position="114">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/JavaVersion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2">
+          <caret line="18" column="32" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/AnnotationUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-57">
+          <caret line="39" column="2" selection-start-line="39" selection-start-column="2" selection-end-line="39" selection-end-column="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Java/jdk1.8.0_92/src.zip!/java/util/Arrays.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="3280" column="17" selection-start-line="3280" selection-start-column="17" selection-end-line="3280" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/ExceptionUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-170">
+          <caret line="626" column="0" selection-start-line="626" selection-start-column="0" selection-end-line="626" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ClassUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/exception/reflect/MethodUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="785" column="63" selection-start-line="785" selection-start-column="63" selection-end-line="785" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/reflect/MethodUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="731" column="35" selection-start-line="731" selection-start-column="35" selection-end-line="731" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/ArrayUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="200" column="7" selection-start-line="200" selection-start-column="7" selection-end-line="200" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/DatePrinter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="86" column="17" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/apache/commons/lang3a/time/FastDatePrinter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="492" column="24" selection-start-line="492" selection-start-column="24" selection-end-line="492" selection-end-column="24" />
           <folding />
         </state>
       </provider>

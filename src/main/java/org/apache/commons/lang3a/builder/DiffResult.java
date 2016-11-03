@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * <p>
  * A {@code DiffResult} contains a collection of the differences between two
- * {@link org.apache.commons.lang3a.builder.Diffable} objects. Typically these differences are displayed using
+ * {@link Diffable} objects. Typically these differences are displayed using
  * {@link #toString()} method, which returns a string describing the fields that
  * differ between the objects.
  * </p>
@@ -32,9 +32,8 @@ import java.util.List;
  * </p>
  * 
  * @since 3.3
- * @version $Id$
  */
-public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Diff<?>> {
+public class DiffResult implements Iterable<Diff<?>> {
 
     /**
      * <p>
@@ -46,10 +45,10 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
 
     private static final String DIFFERS_STRING = "differs from";
 
-    private final List<org.apache.commons.lang3a.builder.Diff<?>> diffs;
+    private final List<Diff<?>> diffs;
     private final Object lhs;
     private final Object rhs;
-    private final org.apache.commons.lang3a.builder.ToStringStyle style;
+    private final ToStringStyle style;
 
     /**
      * <p>
@@ -66,12 +65,12 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * @param style
      *            the style to use for the {@link #toString()} method. May be
      *            {@code null}, in which case
-     *            {@link org.apache.commons.lang3a.builder.ToStringStyle#DEFAULT_STYLE} is used
+     *            {@link ToStringStyle#DEFAULT_STYLE} is used
      * @throws IllegalArgumentException
      *             if {@code lhs}, {@code rhs} or {@code diffs} is {@code null}
      */
-    DiffResult(final Object lhs, final Object rhs, final List<org.apache.commons.lang3a.builder.Diff<?>> diffs,
-            final org.apache.commons.lang3a.builder.ToStringStyle style) {
+    DiffResult(final Object lhs, final Object rhs, final List<Diff<?>> diffs,
+            final ToStringStyle style) {
         if (lhs == null) {
             throw new IllegalArgumentException(
                     "Left hand object cannot be null");
@@ -90,7 +89,7 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
         this.rhs = rhs;
 
         if (style == null) {
-            this.style = org.apache.commons.lang3a.builder.ToStringStyle.DEFAULT_STYLE;
+            this.style = ToStringStyle.DEFAULT_STYLE;
         } else {
             this.style = style;
         }
@@ -104,7 +103,7 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * 
      * @return an unmodifiable list of {@code Diff}s
      */
-    public List<org.apache.commons.lang3a.builder.Diff<?>> getDiffs() {
+    public List<Diff<?>> getDiffs() {
         return Collections.unmodifiableList(diffs);
     }
 
@@ -126,14 +125,14 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * 
      * @return the style
      */
-    public org.apache.commons.lang3a.builder.ToStringStyle getToStringStyle() {
+    public ToStringStyle getToStringStyle() {
         return style;
     }
 
     /**
      * <p>
      * Builds a {@code String} description of the differences contained within
-     * this {@code DiffResult}. A {@link org.apache.commons.lang3a.builder.ToStringBuilder} is used for each object
+     * this {@code DiffResult}. A {@link ToStringBuilder} is used for each object
      * and the style of the output is governed by the {@code ToStringStyle}
      * passed to the constructor.
      * </p>
@@ -141,7 +140,7 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * <p>
      * If there are no differences stored in this list, the method will return
      * {@link #OBJECTS_SAME_STRING}. Otherwise, using the example given in
-     * {@link org.apache.commons.lang3a.builder.Diffable} and {@link org.apache.commons.lang3a.builder.ToStringStyle#SHORT_PREFIX_STYLE}, an output
+     * {@link Diffable} and {@link ToStringStyle#SHORT_PREFIX_STYLE}, an output
      * might be:
      * </p>
      * 
@@ -156,7 +155,7 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * 
      * <p>
      * To use a different {@code ToStringStyle} for an instance of this class,
-     * use {@link #toString(org.apache.commons.lang3a.builder.ToStringStyle)}.
+     * use {@link #toString(ToStringStyle)}.
      * </p>
      * 
      * @return a {@code String} description of the differences.
@@ -177,15 +176,15 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * 
      * @return a {@code String} description of the differences.
      */
-    public String toString(final org.apache.commons.lang3a.builder.ToStringStyle style) {
+    public String toString(final ToStringStyle style) {
         if (diffs.size() == 0) {
             return OBJECTS_SAME_STRING;
         }
 
-        final org.apache.commons.lang3a.builder.ToStringBuilder lhsBuilder = new org.apache.commons.lang3a.builder.ToStringBuilder(lhs, style);
-        final org.apache.commons.lang3a.builder.ToStringBuilder rhsBuilder = new org.apache.commons.lang3a.builder.ToStringBuilder(rhs, style);
+        final ToStringBuilder lhsBuilder = new ToStringBuilder(lhs, style);
+        final ToStringBuilder rhsBuilder = new ToStringBuilder(rhs, style);
 
-        for (final org.apache.commons.lang3a.builder.Diff<?> diff : diffs) {
+        for (final Diff<?> diff : diffs) {
             lhsBuilder.append(diff.getFieldName(), diff.getLeft());
             rhsBuilder.append(diff.getFieldName(), diff.getRight());
         }
@@ -202,7 +201,7 @@ public class DiffResult implements Iterable<org.apache.commons.lang3a.builder.Di
      * @return the iterator
      */
     @Override
-    public Iterator<org.apache.commons.lang3a.builder.Diff<?>> iterator() {
+    public Iterator<Diff<?>> iterator() {
         return diffs.iterator();
     }
 }

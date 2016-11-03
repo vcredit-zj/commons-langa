@@ -50,7 +50,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * </p>
  *
  * @since 3.0
- * @version $Id$
  * @param <T> the type of the object managed by this initializer class
  */
 public abstract class AtomicSafeInitializer<T> implements
@@ -66,11 +65,11 @@ public abstract class AtomicSafeInitializer<T> implements
      * Get (and initialize, if not initialized yet) the required object
      *
      * @return lazily initialized object
-     * @throws org.apache.commons.lang3a.concurrent.ConcurrentException if the initialization of the object causes an
+     * @throws ConcurrentException if the initialization of the object causes an
      * exception
      */
     @Override
-    public final T get() throws org.apache.commons.lang3a.concurrent.ConcurrentException {
+    public final T get() throws ConcurrentException {
         T result;
 
         while ((result = reference.get()) == null) {
@@ -91,7 +90,7 @@ public abstract class AtomicSafeInitializer<T> implements
      * only once.
      *
      * @return the managed data object
-     * @throws org.apache.commons.lang3a.concurrent.ConcurrentException if an error occurs during object creation
+     * @throws ConcurrentException if an error occurs during object creation
      */
-    protected abstract T initialize() throws org.apache.commons.lang3a.concurrent.ConcurrentException;
+    protected abstract T initialize() throws ConcurrentException;
 }

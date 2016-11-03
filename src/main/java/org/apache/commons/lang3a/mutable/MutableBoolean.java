@@ -17,6 +17,8 @@
 
 package org.apache.commons.lang3a.mutable;
 
+import org.apache.commons.lang3a.BooleanUtils;
+
 import java.io.Serializable;
 
 /**
@@ -26,7 +28,6 @@ import java.io.Serializable;
  * 
  * @see Boolean
  * @since 2.2
- * @version $Id$
  */
 public class MutableBoolean implements Mutable<Boolean>, Serializable, Comparable<MutableBoolean> {
 
@@ -196,7 +197,7 @@ public class MutableBoolean implements Mutable<Boolean>, Serializable, Comparabl
      */
     @Override
     public int compareTo(final MutableBoolean other) {
-        return org.apache.commons.lang3a.BooleanUtils.compare(this.value, other.value);
+        return BooleanUtils.compare(this.value, other.value);
     }
 
     //-----------------------------------------------------------------------

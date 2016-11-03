@@ -16,13 +16,10 @@
  */
 package org.apache.commons.lang3a.text;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-
 import org.apache.commons.lang3a.ArrayUtils;
+import org.apache.commons.lang3a.StringUtils;
+
+import java.util.*;
 
 /**
  * Tokenizes a string based based on delimiters (separators)
@@ -82,7 +79,6 @@ import org.apache.commons.lang3a.ArrayUtils;
  * </table>
  *
  * @since 2.2
- * @version $Id$
  */
 public class StrTokenizer implements ListIterator<String>, Cloneable {
 
@@ -646,7 +642,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
             
             // handle case where end of string is a delimiter
             if (pos >= count) {
-                addToken(tokenList, "");
+                addToken(tokenList, StringUtils.EMPTY);
             }
         }
         return tokenList;
@@ -659,7 +655,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * @param tok  the token to add
      */
     private void addToken(final List<String> list, String tok) {
-        if (org.apache.commons.lang3a.StringUtils.isEmpty(tok)) {
+        if (StringUtils.isEmpty(tok)) {
             if (isIgnoreEmptyTokens()) {
                 return;
             }
@@ -698,14 +694,14 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
         
         // handle reaching end
         if (start >= len) {
-            addToken(tokenList, "");
+            addToken(tokenList, StringUtils.EMPTY);
             return -1;
         }
         
         // handle empty token
         final int delimLen = getDelimiterMatcher().isMatch(srcChars, start, start, len);
         if (delimLen > 0) {
-            addToken(tokenList, "");
+            addToken(tokenList, StringUtils.EMPTY);
             return start + delimLen;
         }
         

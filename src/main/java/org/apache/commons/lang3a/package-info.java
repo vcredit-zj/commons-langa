@@ -19,7 +19,7 @@
  * Most of these classes are immutable and thus thread-safe.
  * However {@link org.apache.commons.lang3a.CharSet} is not currently guaranteed thread-safe under all circumstances.</p>
  *
- * <p>The top level package contains various Utils classes, whilst there are various subpackages including {@link org.apache.commons.lang3.math}, {@link org.apache.commons.lang3.concurrent} and {@link org.apache.commons.lang3.builder}.
+ * <p>The top level package contains various Utils classes, whilst there are various subpackages including {@link org.apache.commons.lang3a.math}, {@link org.apache.commons.lang3a.concurrent} and {@link org.apache.commons.lang3a.builder}.
  * Using the Utils classes is generally simplicity itself.
  * They are the equivalent of global functions in another language, a collection of stand-alone, thread-safe, static methods.
  * In contrast, subpackages may contain interfaces which may have to be implemented or classes which may need to be extended to get the full functionality from the code.
@@ -120,6 +120,5 @@
  * <p>The {@link org.apache.commons.lang3a.BitField} class provides a wrapper class around the classic bitmask integer, whilst the {@link org.apache.commons.lang3a.Validate} class may be used for assertions (remember, we support Java 1.2). </p>
  *
  * @since 1.0
- * @version $Id$
  */
 package org.apache.commons.lang3a;
